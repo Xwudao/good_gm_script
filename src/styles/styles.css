@@ -1,0 +1,42 @@
+.left-bar {
+  position: fixed;
+  top: 3rem;
+  left: 1rem;
+  width: 1.1rem;
+  text-align: center;
+  font-size: 1rem;
+  z-index: 99999;
+}
+
+.left-bar .link {
+  padding: 0.3rem 0.1rem;
+  border-radius: 0.2rem;
+  text-decoration: none;
+  width: 1.6rem;
+  margin-top: 0.4rem;
+  display: inline-block;
+  background: #e74c3c;
+  color: white;
+  border: 1px solid #e74c3c;
+}
+
+.left-bar .link:hover {
+  transition: all 0.2s;
+  background: #c0392b;
+}
+
+.left-bar .link.history {
+  background: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+.left-bar .link.history:hover {
+  background: #27ae60;
+}
+
+.left-bar .link.vip {
+  background: #3498db;
+  border: 1px solid #3498db;
+}
+.left-bar .link.vip:hover {
+  background: #2980b9;
+}

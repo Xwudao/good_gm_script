@@ -1,0 +1,39 @@
+{
+  "name": "lzpan_pass",
+  "version": "1.0.0",
+  "description": "懒盘-网盘密码自动填取",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --config webpack.config.js",
+    "w": "webpack --config webpack.config.js --mode development  --watch",
+    "build": "webpack --config webpack.config.js --mode production"
+  },
+  "author": "Kuan",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "autoprefixer": "^9.7.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "browerslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
+  "dependencies": {
+    "@babel/polyfill": "^7.7.0",
+    "base64-url": "^2.3.3",
+    "css-loader": "^3.6.0",
+    "html-webpack-plugin": "^3.2.0",
+    "js-base64": "^3.2.4",
+    "style-loader": "^1.2.1",
+    "webpack-serve": "^3.2.0"
+  }
+}
