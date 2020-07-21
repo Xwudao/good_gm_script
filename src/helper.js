@@ -236,7 +236,6 @@ export function tyyPage(config) {
                         selector_input.value = res.diskPass;
                         selector_click.click();
 
-                        setInterval(waitSuccess, 1000);
                     }, 500);
                 } else {
                     if (selector_notice) {
@@ -255,8 +254,7 @@ export function tyyPage(config) {
             setPwdValue(disk_type, disk_id, value);
         })
     }
-
-    setInterval(waitSuccess, 1000);
+    wait_timer = setInterval(waitSuccess, 1000);
 
     function waitSuccess() {
         if (getSentValue(disk_type, disk_id))
