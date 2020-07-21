@@ -1,0 +1,63 @@
+.kuan-left-bar {
+  position: fixed;
+  top: 3rem;
+  left: 1rem;
+  width: 18px !important;
+  text-align: center;
+  font-size: 16px !important;
+  z-index: 99999;
+
+  .kuan-link {
+    max-width: 100%;
+    padding: 4px 5px;
+    border-radius: 3px;
+    text-decoration: none;
+    width: 18px;
+    margin-top: 0.4rem;
+    display: inline-block;
+    background: #e74c3c;
+    color: white !important;
+    border: 1px solid #e74c3c;
+
+    &:hover {
+      transition: all 0.2s;
+      background: #c0392b;
+    }
+
+    &.history {
+      background: #2ecc71;
+      border: 1px solid #2ecc71;
+
+      &:hover {
+        background: #27ae60;
+        border: 1px solid #27ae60;
+      }
+    }
+
+    &.kuan-vip {
+      background: #3498db;
+      border: 1px solid #3498db;
+
+      &:hover {
+        border: 1px solid #2980b9;
+        background: #2980b9;
+      }
+    }
+    &.bd {
+      background: #09aaff;
+      border: 1px solid #09aaff;
+
+      &:hover {
+        border: 1px solid #0098ea;
+        background: #0098ea;
+      }
+    }
+  }
+}
+/* active link */
+
+.active-link {
+  color: rgb(232, 67, 147);
+  text-decoration: none !important;
+  border: 1px solid;
+}
