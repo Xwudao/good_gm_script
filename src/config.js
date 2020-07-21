@@ -17,6 +17,7 @@ export const BUTTON_TEXT_HISTORY = '查看历史价格';
 export const BUTTON_TEXT_VIP_VIDEO = '跳转解析平台';
 export const BUTTON_TEXT_PARSE_BAIDU = '解析高速链接';
 export const TYY_PRIVATE_TEXT = '私密分享'
+export const WY_PRIVATE_TEXT = '分享密码'
 
 
 export const SYS_ERROR_NOTICE = '抱歉，系统错误，获取密码失败'
@@ -27,6 +28,7 @@ export const ACTIVE_LINK_REG = [//激活页面链接的正则表达式
     /((?:https?:\/\/)?(?:yun|pan|eyun).baidu.com\/s[hare]*\/[int?surl=]*[\w-_]{5,25})/ig,
     /((?:https?:\/\/)?(?:\w+\.)?lanzou.?.com\/[\w\-_]{6,13})/ig,
     /((?:https?:\/\/)?cloud\.?189?.cn\/t\/[\w\-_]+)/ig,
+    /((?:https?:\/\/)?share\.?weiyun?.com\/[\w\-_]+)/ig,
 ];
 
 export const INVALIDATE_LINK_REG = [
@@ -37,6 +39,7 @@ export const PARSE_PWD_REG = [
     /(https?:\/\/(?:pan|yun|eyun)\.baidu\.com\/s[hare]*\/[int?surl=]*[\w-_]{8,25})[&\w=]*[^\w]*(?:密码|授权码|提取码)*[：:]*[^\w]*([\w]{4})*/igm,
     /(https?:\/\/(?:\w+)?\.?lanzou.?\.com\/[\w-_]{6,13})\/?[&\w=]*[^\w]*(?:密码|授权码|提取码)*[：:]*[^\w]*([\w]{4})*/igm,
     /(https?:\/\/cloud.189.cn\/t\/[\w\-_]+)\/?[^\w]*[(（:：]*([\w]+)*[)）]*/igm,
+    /(https?:\/\/share\.weiyun\.com\/[\w-_]{4,15})[&\w=]*[^\w]*(?:密码|授权码|提取码)*[：:]*[^\w]*([\w]{3,7})*/igm,
 ]
 export const URL_REG = /^(https?:\/\/)([0-9a-z.]+)(:[0-9]+)?([/0-9a-z.]+)?(\?[0-9a-z&=]+)?(#[0-9-a-z]+)?/i;
 
@@ -47,6 +50,11 @@ export const BAIDU_ELEMENT = {
     input: 'form input',
     notice: '.verify-form > div',
     click: '.input-area > div > a > span'
+}
+export const WY_ELEMENT = {
+    input: 'input[type="password"]',
+    notice: '',
+    click: 'div.form-item.form-item-btn > div > button'
 }
 export const TY_ELEMENT = {
     input: '#code_txt',

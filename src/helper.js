@@ -2,8 +2,8 @@ import {
     TMALL_TITLE_SELECTTOR,
     TAOBAO_TITLE_SELECTTOR, INVALIDATE_LINK_REG,
     BAIDU_ELEMENT, DISK_INFO_START_WITH, LZ_ELEMENT, VIP_VIDEO_API_URL,
-    ACTIVE_LINK_REG, URL_REG, LZ_PWD_EXITS_ELEMENT, IS_DISK_URL, TY_ELEMENT,
-    TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE,
+    ACTIVE_LINK_REG, URL_REG, LZ_PWD_EXITS_ELEMENT, IS_DISK_URL, TY_ELEMENT, WY_ELEMENT,
+    TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE, WY_PRIVATE_TEXT,
 } from './config'
 // import { encode } from 'js-base64';
 // const base64url = require('base64-url')
@@ -235,8 +235,6 @@ export function tyyPage(config) {
                             selector_notice.innerText = DISK_INFO_START_WITH + QUERY_SUCCESS_NOTICE;
                         selector_input.value = res.diskPass;
                         selector_click.click();
-
-                        setInterval(waitSuccess, 1000);
                     }, 500);
                 } else {
                     if (selector_notice) {
@@ -256,7 +254,7 @@ export function tyyPage(config) {
         })
     }
 
-    setInterval(waitSuccess, 1000);
+    wait_timer = setInterval(waitSuccess, 1000);
 
     function waitSuccess() {
         if (getSentValue(disk_type, disk_id))
@@ -272,6 +270,80 @@ export function tyyPage(config) {
             }
         }
     }
+
+
+}
+
+export function wyPage(config) {
+    let { href } = config;
+    console.log('helper...')
+
+    // 检测是否已失效
+    for (let i = 0; i < INVALIDATE_LINK_REG.length; i++) {
+        let reg = INVALIDATE_LINK_REG[i];
+        if (reg.test(document.body.innerText)) {
+            console.log('detected invalid page');
+            sendInvalidate(disk_type, disk_id);
+            return;//已失效，不往下进行了；
+        }
+    }
+
+    let [disk_type, disk_id] = getDiskIdAndType(href);
+
+    setTimeout(() => {
+        let selector_input = selector(WY_ELEMENT.input);
+        let selector_click = selector(WY_ELEMENT.click);
+        // let selector_notice = selector(TY_ELEMENT.notice);
+
+        let textBody = document.body.innerText;
+        let wait_timer = null;
+        console.log(textBody);
+        console.log(selector_input);
+        if (textBody.indexOf(WY_PRIVATE_TEXT) !== -1) {
+            //有密码
+            // 这是从服务器获取密码
+            getPass(disk_type, disk_id, (res, status) => {
+                // todo 从这里开始要写从本地获取的密码
+                if (status === 'success') {
+                    console.log(res)
+                    if (res && res.diskPass) {
+                        setPwdValue(disk_type, disk_id, res.diskPass);
+                        selector_input.value = res.diskPass;
+                        setTimeout(() => {
+
+                            selector_click.click();
+                        }, 1000);
+                    }
+                } else {
+                    console.log('系统错误');
+                }
+            });
+            // 这里等用户输入
+            selector_input.addEventListener('input', (ev) => {
+                let value = ev.target.value;
+                setPwdValue(disk_type, disk_id, value);
+            })
+        }
+
+
+        wait_timer = setInterval(waitSuccess, 1000);
+        function waitSuccess() {
+            if (getSentValue(disk_type, disk_id))
+                clearInterval(wait_timer);//clear
+            if (textBody.indexOf(WY_PRIVATE_TEXT) === -1) {
+                clearInterval(wait_timer);//clear
+                let val = getPwdValue(disk_type, disk_id) || '';
+                if (!getSentValue(disk_type, disk_id)) {
+                    sendPass(disk_type, disk_id, val, () => {
+                        console.log('sent');
+                        setSentValue(disk_type, disk_id);
+                    });
+                }
+            }
+        }
+    }, 1500);
+
+
 
 
 }

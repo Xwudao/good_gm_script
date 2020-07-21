@@ -1,7 +1,7 @@
 import {
     API_DISK_URL,
     PARSE_PWD_REG, BUTTON_TEXT_VIP_VIDEO, BUTTON_TEXT_PARSE_BAIDU,
-    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL
+    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, WY_PRIVATE_TEXT,
 } from './config'
 
 
@@ -206,6 +206,11 @@ export function getDiskIdAndType(url) {
     matches = /https?:\/\/cloud.?189?\.cn\/t\/([\w_]{4,20})/ig.exec(url);
     if (matches && matches.length === 2) {
         return ['TYY', matches[1]];
+    }
+
+    matches = /https?:\/\/share.?weiyun?\.com\/([\w_]{4,15})/ig.exec(url);
+    if (matches && matches.length === 2) {
+        return ['WY', matches[1]];
     }
     return [];
 }

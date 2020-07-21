@@ -6,7 +6,7 @@ let config = { href, hash, host };
 //引入自己的helper
 
 import {
-    baiduPwdPage, baiduIndexPage, OtherPage, lzyPage, tyyPage,
+    baiduPwdPage, baiduIndexPage, OtherPage, lzyPage, tyyPage, wyPage,
     tmallDetail, taobaoDetail, videoPage
 } from './helper'
 import { exportStyle, selector } from './func';
@@ -36,7 +36,8 @@ let regular_express = {
     bdyPwd: /^https?:\/\/pan\.baidu\.com\/share\/init\?surl=.*/ig,
     bdyPage: /^https?:\/\/pan\.baidu\.com\/s\/.*/ig,
     lzyPage: /^https?:\/\/(?:\w+)?\.?lanzou.?\.com\/.*/ig,
-    tyyPage: /^https?:\/\/(?:\w+)?\.?189.?\.cn\/.*/ig,
+    tyyPage: /^https?:\/\/(?:\w+)?\.?189\.cn\/.*/ig,
+    wyPage: /^https?:\/\/share.?weiyun\.com\/.*/ig,
 }
 
 
@@ -80,6 +81,12 @@ let regular_express = {
     if (regular_express.tyyPage.test(href)) {// 百度网盘正文页面
         console.log('TYY Index Page');
         tyyPage(config);
+        return;
+    }
+    // 微云
+    if (regular_express.wyPage.test(href)) {// 百度网盘正文页面
+        console.log('WY Index Page');
+        wyPage(config);
         return;
     }
     // 解析VIP 视频
