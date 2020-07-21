@@ -129,6 +129,10 @@ export function lzyPage(config) {
     let { href } = config;
     console.log('helper...')
 
+
+    // 设置dom
+    appendSettingDom();
+
     let [disk_type, disk_id] = getDiskIdAndType(href);
 
     // 检测是否已失效
@@ -202,6 +206,10 @@ export function lzyPage(config) {
 export function tyyPage(config) {
     let { href } = config;
     console.log('helper...')
+
+
+    // 设置dom
+    appendSettingDom();
 
     // 检测是否已失效
     for (let i = 0; i < INVALIDATE_LINK_REG.length; i++) {
