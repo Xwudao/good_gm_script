@@ -13,6 +13,7 @@ export const API_PARSE_BAIDU_URL = 'http://pan.naifei.cc/?share=1[disk_id]&pwd=[
 
 export const DISK_INFO_START_WITH = '懒盘:';
 export const BUTTON_TEXT_COUPON = '搜索优惠券';
+export const BUTTON_TEXT_SETTING = '设置';
 export const BUTTON_TEXT_HISTORY = '查看历史价格';
 export const BUTTON_TEXT_VIP_VIDEO = '跳转解析平台';
 export const BUTTON_TEXT_PARSE_BAIDU = '解析高速链接';

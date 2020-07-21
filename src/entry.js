@@ -9,8 +9,8 @@ import {
     baiduPwdPage, baiduIndexPage, OtherPage, lzyPage, tyyPage,
     tmallDetail, taobaoDetail, videoPage
 } from './helper'
-import { exportStyle, selector } from './func';
-import { BAIDU_ELEMENT } from './config';
+import { exportStyle, } from './func';
+import { } from './config';
 
 
 exportStyle();//先导出样式

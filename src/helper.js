@@ -10,7 +10,8 @@ import {
 import {
     selector, getPass, getDiskIdAndType, sendPass, appendVipVideoDom,
     setValue, getValue, setPwdValue, getPwdValue, getSentValue, setSentValue,
-    mactchReplaceHtml, parsePwd, sendInvalidate, activeAnyLink, appendBaiduParseDom
+    mactchReplaceHtml, parsePwd, sendInvalidate, activeAnyLink,
+    appendBaiduParseDom, appendSettingDom
 } from './func'
 
 
@@ -106,6 +107,8 @@ export function baiduIndexPage(config) {
 
     // 左侧按钮，跳转解析
     appendBaiduParseDom(disk_id, getPwdValue(disk_type, disk_id));
+    // 设置dom
+    appendSettingDom();
 
     if (!vl || vl === '') {
         // not sent

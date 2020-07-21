@@ -1,7 +1,7 @@
 import {
     API_DISK_URL,
     PARSE_PWD_REG, BUTTON_TEXT_VIP_VIDEO, BUTTON_TEXT_PARSE_BAIDU,
-    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL
+    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING
 } from './config'
 
 
@@ -28,6 +28,93 @@ export function appendLeftBarDom() {
     document.body.appendChild(divDom);
     return divDom;
 }
+
+export function appendSettingDom() {
+    let aDom = document.createElement('a');
+    aDom.innerText = BUTTON_TEXT_SETTING;
+    aDom.setAttribute('href', '#');
+    aDom.classList.add('kuan-link');
+    aDom.classList.add('setting');
+
+    let leftDivDom = appendLeftBarDom()
+
+    leftDivDom.appendChild(aDom);
+    // dialog
+
+    let t_dialogDom = `
+    <div class="kuan-wrapper">
+        <div class="card">
+            <div class="heading">懒盘脚本设置 <span class="close">X</span></div>
+                <div class="body">
+                    <p>1、清空缓存 （清空之前缓存的提取码等信息）[缓存：<span class="cache-count"></span> ] <button class="clear-cache">清空</button></p>
+                    <p>2、查找缓存[缓存的提取码] <input type="text" class="key" placeholder="输入网盘链接"> <button
+                        class="find">查找</button></p>
+                </div>
+        </div>
+    </div>`;
+    let dialogDom = parseDom(t_dialogDom);
+    document.body.appendChild(dialogDom);
+
+    let lists = getVlues();
+    // console.log(lists);
+
+    let oWrapper = document.querySelector('.kuan-wrapper');
+    let oCacheCount = document.querySelector('.kuan-wrapper .cache-count');
+    let oClose = document.querySelector('.kuan-wrapper .close');
+    let oClearCache = document.querySelector('.kuan-wrapper .clear-cache');
+    let oInputKey = document.querySelector('.kuan-wrapper .key');
+    let oFind = document.querySelector('.kuan-wrapper .find');
+    // console.log(oClose);
+    oCacheCount.innerText = lists.length;
+
+
+    oFind.addEventListener('click', () => {
+        if (oInputKey.value === '' || !oInputKey.value) {
+            alert('请输入网盘链接')
+            return;
+        }
+        let [disk_type, disk_id] = getDiskIdAndType(oInputKey.value);
+        if (!disk_type || !disk_id) {
+            alert('请输入准确的网盘链接');
+            return;
+        }
+        let val = getPwdValue(disk_type, disk_id);
+        if (!val) {
+            alert('抱歉，未在缓存中找到提取码');
+            return;
+        }
+        oInputKey.value = '找到的提取码：' + val;
+    })
+
+    aDom.addEventListener('click', () => {
+        oWrapper.style.display = 'flex';
+    });
+
+    oClose.addEventListener('click', () => {
+        oWrapper.style.display = 'none';
+    })
+
+    oClearCache.addEventListener('click', () => {
+        lists.forEach(item => {
+            delValue(item);
+        });
+        oCacheCount.innerText = getValues().length;
+    })
+
+
+
+
+
+
+
+
+    function parseDom(arg) {
+        let objE = document.createElement("div");
+        objE.innerHTML = arg;
+        return objE.firstElementChild;
+    };
+}
+
 
 export function appendBaiduParseDom(disk_id, pwd = '') {
     let aDom = document.createElement('a');
@@ -110,10 +197,15 @@ export function setValue(key, value) {
     GM_setValue(key, value);
 }
 
-export function getValue(key, defaultValue) {
+export function getValue(key, defaultValue = '') {
     return GM_getValue(key, defaultValue);
 }
-
+export function getVlues() {
+    return GM_listValues();
+}
+export function delValue(key) {
+    GM_deleteValue(key);
+}
 export function setPwdValue(disk_type, disk_id, value) {
     GM_setValue(disk_type + '_' + disk_id, value);
 }
