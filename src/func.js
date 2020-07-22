@@ -309,14 +309,21 @@ export function mactchReplaceHtml(html, reg, tag = false) {
     let i = 0;
     let newHtml = html;
 
+    // console.log(html);
+
 
     while ((exec_res = reg.exec(html))) {
         if (i++ > 100) break;
-        let start = html.substring(0, exec_res.index).slice(-8);
-        if (!/href=['"]?/ig.test(start) && !/['"]?>$/ig.test(start)) {
 
-            if (exec_res && exec_res[1]) {
+        console.log('exec_res', exec_res);
+        let h = html.substring(exec_res.index - 1, exec_res.index + exec_res[1].length + 1)
+        // console.log('h', h);
+
+        if (exec_res && exec_res[1]) {
+            if (!/^[='"]/ig.test(exec_res[1]) && html.split(exec_res[1]).length - 1 < 2) {
+                console.log('can do && no link');
                 isMatch = true;
+
                 if (exec_res[1].indexOf('http') === -1) {
                     newHtml = html.replace(new RegExp(exec_res[1], 'ig'), `<a target="_blank" href="http://${exec_res[1]}" class="active-link">${exec_res[1]}</a>`);
                 } else {
@@ -326,6 +333,24 @@ export function mactchReplaceHtml(html, reg, tag = false) {
                 newHtml = newHtml.replace(/www(\.lanzous\.com)/ig, 'pan$1');//将www替换为pan
             }
         }
+
+
+
+        // ===========以下为旧版本的写法
+        // let start = html.substring(0, exec_res.index).slice(-8);
+        // if (!/href=['"]?/ig.test(start) && !/['"]?>$/ig.test(start)) {
+
+        //     if (exec_res && exec_res[1]) {
+        //         isMatch = true;
+        //         if (exec_res[1].indexOf('http') === -1) {
+        //             newHtml = html.replace(new RegExp(exec_res[1], 'ig'), `<a target="_blank" href="http://${exec_res[1]}" class="active-link">${exec_res[1]}</a>`);
+        //         } else {
+        //             newHtml = html.replace(new RegExp(exec_res[1], 'ig'), `<a target="_blank" href="${exec_res[1]}" class="active-link">${exec_res[1]}</a>`);
+        //         }
+
+        //         newHtml = newHtml.replace(/www(\.lanzous\.com)/ig, 'pan$1');//将www替换为pan
+        //     }
+        // }
 
     }
 

@@ -103,22 +103,17 @@ export function baiduIndexPage(config) {
 
     let [disk_type, disk_id] = getDiskIdAndType(href);
 
-    let vl = getSentValue(disk_type, disk_id)
-
     // 左侧按钮，跳转解析
     appendBaiduParseDom(disk_id, getPwdValue(disk_type, disk_id));
     // 设置dom
     appendSettingDom();
 
-    if (!vl || vl === '') {
+    if (!getSentValue(disk_type, disk_id)) {
         // not sent
         let val = getPwdValue(disk_type, disk_id);
-        sendPass(disk_type, disk_id, val, (res, status) => {
-            // console.log(res)
-            //has sent
-            setSentValue(disk_type, disk_id);
-        });
-
+        sendPass(disk_type, disk_id, val, () => setSentValue(disk_type, disk_id));
+    } else {
+        console.log('has sent');
     }
 }
 
@@ -296,8 +291,9 @@ export function OtherPage(config) {
     document.body.addEventListener('click', (ev) => {
         if (ev.target !== document.body) {//不是点击的body
             let html = ev.target.innerHTML;
-            console.log('click html', html);
-            // console.log(ev.target.innerText);
+            // console.log('click html', html);
+            // console.log('inner html', html);
+            // console.log('html', typeof ev.target);
             parsePwd(ev.target.innerText);//顺带要获取下密码
 
             if (URL_REG.test(html)) {//匹配到了纯网址点击
