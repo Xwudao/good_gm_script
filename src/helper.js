@@ -10,8 +10,8 @@ import {
 import {
     selector, getPass, getDiskIdAndType, sendPass, appendVipVideoDom,
     setValue, getValue, setPwdValue, getPwdValue, getSentValue, setSentValue,
-    mactchReplaceHtml, parsePwd, sendInvalidate, activeAnyLink,
-    appendBaiduParseDom, appendSettingDom
+    mactchReplaceHtml, parsePwd, sendInvalidate, activeAnyLink, parseTitle,
+    appendBaiduParseDom, appendSettingDom, appendCouponDom, appendHistoryDom,
 } from './func'
 
 

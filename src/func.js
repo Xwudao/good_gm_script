@@ -1,7 +1,7 @@
 import {
-    API_DISK_URL,
+    API_DISK_URL, SEARCH_API_URL,
     PARSE_PWD_REG, BUTTON_TEXT_VIP_VIDEO, BUTTON_TEXT_PARSE_BAIDU,
-    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING
+    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING, BUTTON_TEXT_HISTORY, BUTTON_TEXT_COUPON
 } from './config'
 
 
@@ -115,6 +115,9 @@ export function appendSettingDom() {
     };
 }
 
+export function parseTitle(title) {
+    return title.replace(/^【.*】/ig, '');
+}
 
 export function appendBaiduParseDom(disk_id, pwd = '') {
     let aDom = document.createElement('a');
@@ -143,6 +146,49 @@ export function appendVipVideoDom(url) {
 
     leftDivDom.appendChild(aDom);
 }
+
+// 插入历史价格
+export function appendHistoryDom(url) {
+    let aDom = document.createElement('a');
+    aDom.setAttribute('target', '_blank');
+    aDom.innerText = BUTTON_TEXT_HISTORY;
+
+
+    aDom.setAttribute('href', getHistoryUrl(url));
+    aDom.classList.add('kuan-link');
+    aDom.classList.add('history');
+
+    let leftDivDom = appendLeftBarDom()
+
+    leftDivDom.appendChild(aDom);
+}
+// 构造历史价格优惠券
+export function getHistoryUrl(url) {
+    if (typeof url !== 'string') return url;
+    if (url.indexOf('detail.tmall') !== -1) {
+        return url.replace('tmall', 'tmallasd')
+    }
+    if (url.indexOf('item.taobao') !== -1) {
+        return url.replace('taobao', 'taobaoasd')
+    }
+    return url;
+}
+
+// 插入优惠券节点
+export function appendCouponDom(title) {
+
+    let aDom = document.createElement('a');
+    aDom.setAttribute('target', '_blank');
+    aDom.innerText = BUTTON_TEXT_COUPON;
+    aDom.setAttribute('href', SEARCH_API_URL.replace('[kw]', encodeURIComponent(title)));
+    aDom.classList.add('kuan-link');
+
+    let leftDivDom = appendLeftBarDom()
+
+    leftDivDom.appendChild(aDom);
+}
+
+
 export function getCompressPass() {
     let re_pass = /[【\[激活解压壓提取密码碼：:\]】]{3,}\s*([\w+\.\-\~]+)/ig;
     let matchArray = document.body.innerText.match(re_pass);
