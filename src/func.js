@@ -320,14 +320,14 @@ export function mactchReplaceHtml(html, reg, tag = false) {
         // console.log('h', h);
 
         if (exec_res && exec_res[1]) {
-            if (!/^[='"]/ig.test(exec_res[1]) && html.split(exec_res[1]).length - 1 < 2) {
+            if (!/^[='"\/]/ig.test(exec_res[1]) && html.split(exec_res[1]).length - 1 < 2) {
                 console.log('can do && no link');
                 isMatch = true;
 
                 if (exec_res[1].indexOf('http') === -1) {
-                    newHtml = html.replace(new RegExp(exec_res[1], 'ig'), `<a target="_blank" href="http://${exec_res[1]}" class="active-link">${exec_res[1]}</a>`);
+                    newHtml = html.replace(new RegExp(exec_res[1], 'ig'), `<a target="_blank" class="active-link" href="http://${exec_res[1]}">${exec_res[1]}</a>`);
                 } else {
-                    newHtml = html.replace(new RegExp(exec_res[1], 'ig'), `<a target="_blank" href="${exec_res[1]}" class="active-link">${exec_res[1]}</a>`);
+                    newHtml = html.replace(new RegExp(exec_res[1], 'ig'), `<a target="_blank" class="active-link" href="${exec_res[1]}">${exec_res[1]}</a>`);
                 }
 
                 newHtml = newHtml.replace(/www(\.lanzous\.com)/ig, 'pan$1');//将www替换为pan
