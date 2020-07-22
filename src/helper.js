@@ -1,6 +1,5 @@
 import {
-    TMALL_TITLE_SELECTTOR,
-    TAOBAO_TITLE_SELECTTOR, INVALIDATE_LINK_REG,
+    INVALIDATE_LINK_REG,
     BAIDU_ELEMENT, DISK_INFO_START_WITH, LZ_ELEMENT, VIP_VIDEO_API_URL,
     ACTIVE_LINK_REG, URL_REG, LZ_PWD_EXITS_ELEMENT, IS_DISK_URL, TY_ELEMENT,
     TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE,
@@ -18,7 +17,8 @@ import {
 // 天猫详情页操作
 export function tmallDetail(config) {
     let { href } = config;
-    let title = selector(TMALL_TITLE_SELECTTOR).innerText
+    let title = document.title.split('-')[0] || '';
+    if (!title) return;
     console.log(title);
     appendCouponDom(parseTitle(title));
     appendHistoryDom(href);
@@ -28,7 +28,8 @@ export function tmallDetail(config) {
 // 淘宝详情页操作
 export function taobaoDetail(config) {
     let { href } = config;
-    let title = selector(TAOBAO_TITLE_SELECTTOR).innerText
+    let title = document.title.split('-')[0] || '';
+    if (!title) return;
     console.log(title);
 
     appendCouponDom(parseTitle(title));
