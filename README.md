@@ -20,6 +20,12 @@
 
 ![image](./images/2.png)
 
+### 相关网站
+
+1、优惠券系统：[https://shop.misiai.com/](https://shop.misiai.com/)
+
+2、解析网站：[http://pan.naifei.cc/](http://pan.naifei.cc/)
+
 ### 协议
 
 [MIT](./LICENSE)
