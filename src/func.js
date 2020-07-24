@@ -312,11 +312,17 @@ export function getCompressPass() {
 export function getPass(disk_type, disk_id, callBack) {
     let data = 'disk_id=' + disk_id + '&disk_type=' + disk_type;
     let pwd = getPwdValue(disk_type, disk_id)
-    if (pwd) {//本地密码
-        callBack({ diskPass: pwd, from: 'local' }, 'success');
-        return;
-    }
-    return $.post(API_DISK_URL + '/pass/get', data, callBack, 'json');
+    // if (pwd) {//本地密码
+    //     callBack({ diskPass: pwd, from: 'local' }, 'success');
+    //     return;
+    // }
+    return $.post(API_DISK_URL + '/pass/get', data, (res, status) => {
+        if (res && res.diskPass) {
+            callBack(res, status);//用远程的
+        } else {
+            callBack({ diskPass: pwd, from: 'local' }, 'success');//用本地的
+        }
+    }, 'json');
 }
 export function sendPass(disk_type, disk_id, local_pass, callBack) {
     if (disk_type === undefined || disk_id === undefined) return;
