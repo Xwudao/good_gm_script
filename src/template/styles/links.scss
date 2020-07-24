@@ -1,0 +1,74 @@
+.kuan-links-wrapper {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  border: 1px solid #ddd;
+  width: 300px;
+  .title {
+    user-select: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #3498db;
+    height: 20px;
+    line-height: 20px;
+    border-bottom: 1px solid #ddd;
+    padding: 7px;
+
+    &.fold {
+      border-bottom: none;
+    }
+    .notice {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  }
+
+  .links {
+    width: 100%;
+    height: 400px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 10px 0 10px 10px;
+    &.fold {
+      height: 0;
+      padding: 0;
+    }
+
+    &:hover::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar {
+      /*滚动条整体样式*/
+      width: 0; /*高宽分别对应横竖滚动条的尺寸*/
+      //width: 0.3rem; /*高宽分别对应横竖滚动条的尺寸*/
+      //height: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      /*滚动条里面小方块*/
+      background-color: #95a5a6;
+    }
+
+    &::-webkit-scrollbar-track {
+      /*滚动条里面轨道*/
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #dddddd;
+      //   border-radius: 10px;
+    }
+    .link {
+      border-bottom: 1px solid #ddd;
+      font-size: 1rem;
+      padding: 5px;
+      white-space: wrap;
+      word-break: break-all;
+      a {
+        color: #2980b9;
+      }
+      .pwd {
+        color: green;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

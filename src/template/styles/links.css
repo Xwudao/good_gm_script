@@ -1,0 +1,86 @@
+@charset "UTF-8";
+.kuan-links-wrapper {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  border: 1px solid #ddd;
+  width: 300px;
+}
+
+.kuan-links-wrapper .title {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #3498db;
+  height: 20px;
+  line-height: 20px;
+  border-bottom: 1px solid #ddd;
+  padding: 7px;
+}
+
+.kuan-links-wrapper .title.fold {
+  border-bottom: none;
+}
+
+.kuan-links-wrapper .title .notice {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.kuan-links-wrapper .links {
+  width: 100%;
+  height: 400px;
+  overflow-y: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px 0 10px 10px;
+}
+
+.kuan-links-wrapper .links.fold {
+  height: 0;
+  padding: 0;
+}
+
+.kuan-links-wrapper .links:hover::-webkit-scrollbar {
+  width: 5px;
+}
+
+.kuan-links-wrapper .links::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 0;
+  /*高宽分别对应横竖滚动条的尺寸*/
+}
+
+.kuan-links-wrapper .links::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  background-color: #95a5a6;
+}
+
+.kuan-links-wrapper .links::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+          box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #dddddd;
+}
+
+.kuan-links-wrapper .links .link {
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  padding: 5px;
+  white-space: wrap;
+  word-break: break-all;
+}
+
+.kuan-links-wrapper .links .link a {
+  color: #2980b9;
+}
+
+.kuan-links-wrapper .links .link .pwd {
+  color: green;
+  font-size: 0.9rem;
+}
+/*# sourceMappingURL=links.css.map */

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/links.css">
+</head>
+
+<body>
+    <div class="kuan-links-wrapper">
+        <div class="title">
+            <span>页面链接</span>
+            <span class="notice">（拖拽移动）</span>
+        </div>
+        <div class="links">
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://wwwwwwwww.baidubaidubaidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidubaidubaidubaidu.com</a>
+                <span class="pwd">jfai</span>
+            </div>
+            <div class="link">
+                <a href="#">https://www.baidu.comcomcomcom</a>
+                <span class="pwd">jfai</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let oTitle = document.querySelector('.title');
+        let olinks = document.querySelector('.links');
+        let oWrapper = document.querySelector('.kuan-links-wrapper');
+
+        // 折叠展开
+        oTitle.addEventListener('click', () => {
+            oTitle.classList.toggle('fold');
+            olinks.classList.toggle('fold');
+        });
+
+        let x = 0, y = 0, l = 0, t = 0;
+
+        oTitle.addEventListener('mousedown', (e) => {
+            x = e.clientX;
+            y = e.clientY;
+            //获取左部和顶部的偏移量
+            l = oWrapper.offsetLeft;
+            t = oWrapper.offsetTop;
+            //开关打开
+            console.log('x', x, 'y', y);
+            console.log(l, t);
+            console.log('mouseDown');
+            oTitle.style.cursor = 'move';
+            window.addEventListener('mousemove', moveFunc)
+
+        });
+        oTitle.addEventListener('mouseup', () => {
+            console.log('mouseup');
+            oTitle.style.cursor = 'pointer';
+            window.removeEventListener('mousemove', moveFunc);
+        })
+
+        function moveFunc(e) {
+            let nx = e.clientX;
+            let ny = e.clientY;
+            //计算移动后的左偏移量和顶部的偏移量
+            let nl = nx - (x - l);
+            let nt = ny - (y - t);
+            oWrapper.style.left = nl + 'px';
+            oWrapper.style.top = nt + 'px';
+        }
+
+    </script>
+</body>
+
+</html>

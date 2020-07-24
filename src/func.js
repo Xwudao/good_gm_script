@@ -1,6 +1,7 @@
 import {
     API_DISK_URL, SEARCH_API_URL,
     PARSE_PWD_REG, BUTTON_TEXT_VIP_VIDEO, BUTTON_TEXT_PARSE_BAIDU,
+    KEY_LINKS_DIALOG, NOTICE_TEXT_CLOSE_LINK_DIALOG,
     URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING, BUTTON_TEXT_HISTORY, BUTTON_TEXT_COUPON
 } from './config'
 
@@ -29,6 +30,7 @@ export function appendLeftBarDom() {
     return divDom;
 }
 
+// 添加设置按钮
 export function appendSettingDom() {
     let aDom = document.createElement('a');
     aDom.innerText = BUTTON_TEXT_SETTING;
@@ -49,6 +51,7 @@ export function appendSettingDom() {
                     <p>1、清空缓存 （清空之前缓存的提取码等信息）[缓存：<span class="cache-count"></span> ] <button class="clear-cache">清空</button></p>
                     <p>2、查找缓存[缓存的提取码] <input type="text" class="key" placeholder="输入网盘链接"> <button
                         class="find">查找</button></p>
+                    <p>3、开启页面网盘链接展示框：<button class="btn_link">开启/关闭</button>，当前状态：<span class="link_status"></span></p>
                 </div>
         </div>
     </div>`;
@@ -58,15 +61,26 @@ export function appendSettingDom() {
     let lists = getVlues();
     // console.log(lists);
 
-    let oWrapper = document.querySelector('.kuan-wrapper');
-    let oCacheCount = document.querySelector('.kuan-wrapper .cache-count');
-    let oClose = document.querySelector('.kuan-wrapper .close');
-    let oClearCache = document.querySelector('.kuan-wrapper .clear-cache');
-    let oInputKey = document.querySelector('.kuan-wrapper .key');
-    let oFind = document.querySelector('.kuan-wrapper .find');
+    let oWrapper = dialogDom;
+    // let oWrapper = document.querySelector('.kuan-wrapper');
+    let oCacheCount = oWrapper.querySelector('.kuan-wrapper .cache-count');
+    let oClose = oWrapper.querySelector('.kuan-wrapper .close');
+    let oClearCache = oWrapper.querySelector('.kuan-wrapper .clear-cache');
+    let oInputKey = oWrapper.querySelector('.kuan-wrapper .key');
+    let oFind = oWrapper.querySelector('.kuan-wrapper .find');
+    let oSpanLinkStatus = oWrapper.querySelector('.kuan-wrapper .link_status');
+    let oBtnLink = oWrapper.querySelector('.kuan-wrapper .btn_link');//页面链接展示控制
     // console.log(oClose);
     oCacheCount.innerText = lists.length;
 
+    // 展示页面链接按钮
+    oSpanLinkStatus.innerText = getValue(KEY_LINKS_DIALOG, 'true') === 'true' ? '开启' : '关闭';
+    oBtnLink.addEventListener('click', () => {
+        let st = getValue(KEY_LINKS_DIALOG, 'true')
+        let newSt = st === 'true' ? 'false' : 'true';
+        oSpanLinkStatus.innerText = newSt === 'true' ? '开启' : '关闭';
+        setValue(KEY_LINKS_DIALOG, newSt);
+    })
 
     oFind.addEventListener('click', () => {
         if (oInputKey.value === '' || !oInputKey.value) {
@@ -96,7 +110,8 @@ export function appendSettingDom() {
 
     oClearCache.addEventListener('click', () => {
         lists.forEach(item => {
-            delValue(item);
+            if (item.indexOf('setting') === -1)
+                delValue(item);
         });
         oCacheCount.innerText = getValues().length;
     })
@@ -106,13 +121,104 @@ export function appendSettingDom() {
 
 
 
+}
 
 
-    function parseDom(arg) {
-        let objE = document.createElement("div");
-        objE.innerHTML = arg;
-        return objE.firstElementChild;
-    };
+
+function parseDom(arg) {
+    let objE = document.createElement("div");
+    objE.innerHTML = arg;
+    return objE.firstElementChild;
+};
+
+// 添加页面链接汇总dom
+export function appendLinksDom(linksArr) {
+    if (linksArr.length <= 0) return;// 没有东西，就不要创建了
+    if (document.querySelector('.kuan-links-wrapper')) return;// 已经有了
+    let open = getValue(KEY_LINKS_DIALOG, 'true')
+    if (open !== 'true') return;
+    let dom = `
+    <div class="kuan-links-wrapper">
+        <div class="kuan-title">
+            <span>页面链接</span>
+            <span class="kuan-notice">（拖拽移动，点击展开折叠）</span>
+            <span class="kuan-close">&times;</span>
+        </div>
+        <div class="kuan-links">
+            
+        </div>
+    </div>`;
+    let linksDom = parseDom(dom);
+
+    let oTitle = linksDom.querySelector('.kuan-title');
+    let oLinks = linksDom.querySelector('.kuan-links');
+    let oClose = linksDom.querySelector('.kuan-close');
+    let oWrapper = linksDom;
+    // console.log(oTitle, oLinks, oWrapper);
+
+
+    linksArr.forEach((item, i) => {
+        console.log(i);
+        let { link, pwd } = item;
+        let linkDom = `<div class="item"><em>[${i + 1}]</em><a class="kuan-link" href="${link}" target="_blank">${link}</a><span class="pwd">${pwd}</span></div>`;
+        oLinks.appendChild(parseDom(linkDom));
+    });
+
+    document.body.appendChild(oWrapper);
+    // 折叠展开
+    oTitle.addEventListener('click', clickFun);
+
+    let x = 0, y = 0, l = 0, t = 0;
+    let key = false;//设置了一个标志 false为点击事件 ture为鼠标移动事件
+    let firstTime = 0;
+    let lastTime = 0;
+    oTitle.addEventListener('mousedown', (e) => {
+        firstTime = new Date().getTime();
+        x = e.clientX;
+        y = e.clientY;
+        //获取左部和顶部的偏移量
+        l = oWrapper.offsetLeft;
+        t = oWrapper.offsetTop;
+        //开关打开
+        console.log('x', x, 'y', y);
+        console.log(l, t);
+        console.log('mouseDown');
+        oTitle.style.cursor = 'move';
+        window.addEventListener('mousemove', moveFunc)
+
+    });
+    oTitle.addEventListener('mouseup', () => {
+        lastTime = new Date().getTime();
+        if ((lastTime - firstTime) < 200) {
+            key = true;
+        }
+        console.log('mouseup');
+        oTitle.style.cursor = 'pointer';
+        window.removeEventListener('mousemove', moveFunc);
+    })
+    function clickFun(ev) {
+        if (ev.target === oClose) {
+            setValue(KEY_LINKS_DIALOG, 'false');
+            alert(NOTICE_TEXT_CLOSE_LINK_DIALOG);
+            location.reload();
+            return;
+        }
+        if (key) {
+            oTitle.classList.toggle('fold');
+            oLinks.classList.toggle('fold');
+            key = false;
+        }
+    }
+    function moveFunc(e) {
+        let nx = e.clientX;
+        let ny = e.clientY;
+        //计算移动后的左偏移量和顶部的偏移量
+        let nl = nx - (x - l);
+        let nt = ny - (y - t);
+        oWrapper.style.left = nl + 'px';
+        oWrapper.style.top = nt + 'px';
+    }
+
 }
 
 export function parseTitle(title) {
@@ -297,6 +403,7 @@ export function parsePwd(html) {
     1: "https://pan.baidu.com/s/1KpvGklksecWEEAQop1PumQ"
     2: "9g4q"
     groups: undefined */
+    let linksArr = [];
     for (let i = 0; i < PARSE_PWD_REG.length; i++) {
         let res = matchAll(html, PARSE_PWD_REG[i]);
         for (let j = 0; j < res.length; j++) {
@@ -306,8 +413,11 @@ export function parsePwd(html) {
                 console.log('find pwd: ', disk_id, '===>>', res[j][2]);
                 setPwdValue(disk_type, disk_id, res[j][2]);
             }
+
+            linksArr.push({ link: res[j][1], pwd: res[j][2] || '' });
         }
     }
+    appendLinksDom(linksArr);//添加所有链接的节点
 }
 
 export function matchAll(str, reg) {// helper,简单封装匹配函数

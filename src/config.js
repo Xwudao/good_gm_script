@@ -12,7 +12,12 @@ export const API_DISK_URL = '//api1.lzpan.com/api';
 export const API_PARSE_BAIDU_URL = 'http://pan.naifei.cc/?share=1[disk_id]&pwd=[pwd]'
 
 
+export const KEY_LINKS_DIALOG = '_setting_link_dialog_'
 
+
+
+
+export const NOTICE_TEXT_CLOSE_LINK_DIALOG = '已经关闭啦，再次开启请到脚本支持的网盘页面左侧的设置按钮中开启！';
 export const DISK_INFO_START_WITH = '懒盘:';
 export const BUTTON_TEXT_COUPON = '搜索优惠券';
 export const BUTTON_TEXT_SETTING = '设置';

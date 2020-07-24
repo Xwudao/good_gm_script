@@ -292,7 +292,16 @@ export function OtherPage(config) {
     document.body.addEventListener('click', (ev) => {
         if (ev.target !== document.body) {//不是点击的body
             let html = ev.target.innerHTML;
-            console.log('click html', html);
+            console.log('ev.target', ev.target);
+            // console.log('click html', html);
+            let kuanLinks = document.querySelectorAll('.kuan-link');
+            let kuanLinksWrapper = document.querySelector('.kuan-links');
+            console.log('kuanLinksWrapper', kuanLinksWrapper);
+            console.log('kuanLinks', kuanLinks);
+            for (const item of kuanLinks) {
+                if (item === ev.target) return;
+            }
+            if (ev.target === kuanLinksWrapper) return;//自己的框框不能装
             // console.log('inner html', html);
             // console.log('html', typeof ev.target);
             parsePwd(ev.target.innerText);//顺带要获取下密码
