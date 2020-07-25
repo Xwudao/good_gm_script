@@ -172,7 +172,7 @@
 
   .kuan-links {
     width: 100%;
-    height: 400px;
+    max-height: 400px;
     overflow-y: auto;
     box-sizing: border-box;
     padding: 10px 0 10px 3px;
@@ -209,6 +209,11 @@
       white-space: wrap;
       word-break: break-all;
       font-size: 14px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
       em {
         color: #666666;
         margin-right: 0.2rem;
