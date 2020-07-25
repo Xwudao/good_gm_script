@@ -10,16 +10,20 @@ import {
     selector, getPass, getDiskIdAndType, sendPass, appendVipVideoDom,
     setValue, getValue, setPwdValue, getPwdValue, getSentValue, setSentValue,
     mactchReplaceHtml, parsePwd, sendInvalidate, activeAnyLink, parseTitle,
+    appendCouponQrCode,
     appendBaiduParseDom, appendSettingDom, appendCouponDom, appendHistoryDom,
 } from './func'
 
+import { parseItemId } from './util';
 
 // 天猫详情页操作
 export function tmallDetail(config) {
     let { href } = config;
     let title = document.title.split('-')[0] || '';
     if (!title) return;
-    console.log(title);
+
+    let itemId = parseItemId(href);
+    appendCouponQrCode(itemId);//弹出二维码
     appendCouponDom(parseTitle(title));
     appendHistoryDom(href);
 
@@ -30,7 +34,10 @@ export function taobaoDetail(config) {
     let { href } = config;
     let title = document.title.split('-')[0] || '';
     if (!title) return;
-    console.log(title);
+
+    let itemId = parseItemId(href);
+    appendCouponQrCode(itemId);//弹出二维码
+
 
     appendCouponDom(parseTitle(title));
     appendHistoryDom(href);

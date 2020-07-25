@@ -141,86 +141,169 @@
 
 .kuan-links-wrapper {
   position: fixed;
-  top: 10px;
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  top: 150px;
   right: 20px;
   border: 1px solid #ddd;
   width: 300px;
+  z-index: 99999;
+  background-color: #fff;
+  clear: both;
 }
 
-.kuan-links-wrapper .title {
+.kuan-links-wrapper .kuan-title {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: bold;
   color: #3498db;
   height: 20px;
   line-height: 20px;
   border-bottom: 1px solid #ddd;
-  padding: 7px;
+  padding: 7px 12px;
 }
 
-.kuan-links-wrapper .title.fold {
+.kuan-links-wrapper .kuan-title.fold {
   border-bottom: none;
 }
 
-.kuan-links-wrapper .title .notice {
-  font-size: 0.8rem;
+.kuan-links-wrapper .kuan-title .kuan-notice {
+  font-size: 13px;
   color: #aaa;
 }
 
-.kuan-links-wrapper .links {
+.kuan-links-wrapper .kuan-title .kuan-close {
+  float: right;
+  font-size: 30px;
+}
+
+.kuan-links-wrapper .kuan-title .kuan-close:hover {
+  color: red;
+}
+
+.kuan-links-wrapper .kuan-links {
   width: 100%;
   height: 400px;
   overflow-y: auto;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 10px 0 10px 10px;
+  padding: 10px 0 10px 3px;
 }
 
-.kuan-links-wrapper .links.fold {
+.kuan-links-wrapper .kuan-links.fold {
   height: 0;
   padding: 0;
 }
 
-.kuan-links-wrapper .links:hover::-webkit-scrollbar {
+.kuan-links-wrapper .kuan-links:hover::-webkit-scrollbar {
   width: 5px;
 }
 
-.kuan-links-wrapper .links::-webkit-scrollbar {
+.kuan-links-wrapper .kuan-links::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 0;
   /*高宽分别对应横竖滚动条的尺寸*/
+  height: 0;
 }
 
-.kuan-links-wrapper .links::-webkit-scrollbar-thumb {
+.kuan-links-wrapper .kuan-links::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   background-color: #95a5a6;
 }
 
-.kuan-links-wrapper .links::-webkit-scrollbar-track {
+.kuan-links-wrapper .kuan-links::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
           box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: #dddddd;
 }
 
-.kuan-links-wrapper .links .link {
+.kuan-links-wrapper .kuan-links .item {
   border-bottom: 1px solid #ddd;
-  font-size: 1rem;
   padding: 5px;
   white-space: wrap;
   word-break: break-all;
+  font-size: 14px;
 }
 
-.kuan-links-wrapper .links .link a {
+.kuan-links-wrapper .kuan-links .item em {
+  color: #666666;
+  margin-right: 0.2rem;
+  font-style: normal;
+}
+
+.kuan-links-wrapper .kuan-links .item a.kuan-link {
   color: #2980b9;
+  text-decoration: none;
 }
 
-.kuan-links-wrapper .links .link .pwd {
+.kuan-links-wrapper .kuan-links .item a.kuan-link:hover {
+  text-decoration: underline;
+}
+
+.kuan-links-wrapper .kuan-links .item .pwd {
   color: green;
-  font-size: 0.9rem;
+  margin-left: 1rem;
+}
+
+.kuan-coupon-code {
+  background-color: #fff;
+  border-radius: 3px;
+  position: fixed;
+  top: 150px;
+  left: 50px;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+}
+
+.kuan-coupon-code img {
+  display: inline-block;
+  width: 150px;
+}
+
+.kuan-coupon-code .text {
+  font-size: 15px;
+  display: inline-block;
+  color: #666;
+}
+
+.kuan-coupon-code .text .num {
+  margin: 0 4px;
+  font-weight: bold;
+  color: red;
+  font-size: 18px;
+}
+
+.kuan-coupon-code .btn {
+  margin-top: 10px;
+  outline: none;
+  padding: 5px 3px;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #f57c00;
+  border: 1px solid #f57c00;
+  cursor: pointer;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+}
+
+.kuan-coupon-code .btn:hover {
+  background: #f79633;
+  border-color: #f79633;
+  color: #fff;
 }
 /*# sourceMappingURL=styles.css.map */

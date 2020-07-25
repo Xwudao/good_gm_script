@@ -1,0 +1,45 @@
+.kuan-coupon-code {
+  background-color: #fff;
+  border-radius: 3px;
+  position: fixed;
+  top: 150px;
+  left: 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 10px;
+  img {
+    display: inline-block;
+    width: 150px;
+  }
+  .text {
+    font-size: 15px;
+    display: inline-block;
+    color: #666;
+    .num {
+      margin: 0 4px;
+      font-weight: bold;
+      color: red;
+      font-size: 18px;
+    }
+  }
+  .btn {
+    margin-top: 10px;
+    outline: none;
+    padding: 5px 3px;
+    font-size: 12px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #f57c00;
+    border: 1px solid #f57c00;
+    cursor: pointer;
+    transition: all 0.1s;
+
+    &:hover {
+      background: #f79633;
+      border-color: #f79633;
+      color: #fff;
+    }
+  }
+}

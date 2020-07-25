@@ -1,0 +1,57 @@
+.kuan-coupon-code {
+  background-color: #fff;
+  border-radius: 3px;
+  position: fixed;
+  top: 150px;
+  left: 50px;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+}
+
+.kuan-coupon-code img {
+  display: inline-block;
+  width: 150px;
+}
+
+.kuan-coupon-code .text {
+  font-size: 15px;
+  display: inline-block;
+  color: #666;
+}
+
+.kuan-coupon-code .text .num {
+  margin: 0 4px;
+  font-weight: bold;
+  color: red;
+  font-size: 18px;
+}
+
+.kuan-coupon-code .btn {
+  margin-top: 10px;
+  outline: none;
+  padding: 5px 3px;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #f57c00;
+  border: 1px solid #f57c00;
+  cursor: pointer;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+}
+
+.kuan-coupon-code .btn:hover {
+  background: #f79633;
+  border-color: #f79633;
+  color: #fff;
+}
+/*# sourceMappingURL=coupon.css.map */

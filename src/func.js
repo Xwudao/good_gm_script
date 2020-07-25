@@ -1,7 +1,7 @@
 import {
-    API_DISK_URL, SEARCH_API_URL,
+    API_DISK_URL, SEARCH_API_URL, API_TAOKE_COUPON_URL,
     PARSE_PWD_REG, BUTTON_TEXT_VIP_VIDEO, BUTTON_TEXT_PARSE_BAIDU,
-    KEY_LINKS_DIALOG, NOTICE_TEXT_CLOSE_LINK_DIALOG,
+    KEY_LINKS_DIALOG, NOTICE_TEXT_CLOSE_LINK_DIALOG, BUTTON_TEXT_FIND_COUPON,
     URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING, BUTTON_TEXT_HISTORY, BUTTON_TEXT_COUPON
 } from './config'
 
@@ -268,6 +268,32 @@ export function appendHistoryDom(url) {
 
     leftDivDom.appendChild(aDom);
 }
+
+//插入优惠券二维码dom
+
+export function appendCouponQrCode(id) {
+    getCouponInfo(id, (data) => {
+        if (!data) return;
+        let amount = data.coupon_amount;
+        let coupon_url = data.coupon_share_url;
+        // console.log('data: ', data);
+
+        if (data && coupon_url) {
+            let aDom = document.createElement('a');
+            aDom.setAttribute('target', '_blank');
+            aDom.innerText = BUTTON_TEXT_FIND_COUPON;
+            aDom.setAttribute('href', coupon_url);
+            aDom.classList.add('kuan-link');
+            aDom.classList.add('kuan-coupon');
+
+            let leftDivDom = appendLeftBarDom()
+
+            leftDivDom.appendChild(aDom);
+        }
+
+    });
+}
+
 // 构造历史价格优惠券
 export function getHistoryUrl(url) {
     if (typeof url !== 'string') return url;
@@ -324,6 +350,13 @@ export function getPass(disk_type, disk_id, callBack) {
         }
     }, 'json');
 }
+export function getCouponInfo(id, callBack) {
+    $.get(API_TAOKE_COUPON_URL.replace('[id]', id), (res, status) => {
+        if (callBack)
+            callBack(res.data);
+    }, 'json');
+}
+
 export function sendPass(disk_type, disk_id, local_pass, callBack) {
     if (disk_type === undefined || disk_id === undefined) return;
     let local_compress_pass = getCompressValue(disk_type, disk_id);

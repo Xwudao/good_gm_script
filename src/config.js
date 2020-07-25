@@ -8,6 +8,7 @@ export const SEARCH_API_URL = 'https://shop.misiai.com/search/[kw]';
 export const VIP_VIDEO_API_URL = 'http://jx.misiai.com/[url]';
 
 export const API_DISK_URL = '//api1.lzpan.com/api';
+export const API_TAOKE_COUPON_URL = 'https://common.misiai.com/public/taoke/getCouponByItemId?itemId=[id]'
 
 export const API_PARSE_BAIDU_URL = 'http://pan.naifei.cc/?share=1[disk_id]&pwd=[pwd]'
 
@@ -24,6 +25,7 @@ export const BUTTON_TEXT_SETTING = '设置';
 export const BUTTON_TEXT_HISTORY = '查看历史价格';
 export const BUTTON_TEXT_VIP_VIDEO = '跳转解析平台';
 export const BUTTON_TEXT_PARSE_BAIDU = '解析高速链接';
+export const BUTTON_TEXT_FIND_COUPON = '🎁查询到该商品优惠券🎁';
 export const TYY_PRIVATE_TEXT = '私密分享'
 
 
