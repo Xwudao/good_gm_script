@@ -4,7 +4,7 @@ export const TAOBAO_TITLE_SELECTTOR = [
     '#J_Title > h3', '#J_DetailMeta > div.tm-clear > div.tb-property > div > div.tb-detail-hd > h1'
 ]
 
-export const SEARCH_API_URL = 'https://shop.misiai.com/search/[kw]';
+export const SEARCH_API_URL = 'https://mall.misiai.com/index.php?input=2&r=l&kw=[kw]';
 export const VIP_VIDEO_API_URL = 'http://jx.misiai.com/[url]';
 
 export const API_DISK_URL = '//api1.lzpan.com/api';
