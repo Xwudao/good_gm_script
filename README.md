@@ -22,9 +22,11 @@
 
 ### 相关网站
 
-1、优惠券系统：[https://shop.misiai.com/](https://shop.misiai.com/)
+1、GM Script: [https://greasyfork.org/zh-CN/scripts/396347](https://greasyfork.org/zh-CN/scripts/396347)
 
-2、解析网站：[http://pan.naifei.cc/](http://pan.naifei.cc/)
+2、优惠券系统：[https://shop.misiai.com/](https://shop.misiai.com/)
+
+3、解析网站：[http://pan.naifei.cc/](http://pan.naifei.cc/)
 
 ### 协议
 
