@@ -46,7 +46,7 @@ export function appendSettingDom() {
     let t_dialogDom = `
     <div class="kuan-wrapper">
         <div class="card">
-            <div class="heading">懒盘脚本设置 <span class="close">X</span></div>
+            <div class="heading">懒盘脚本设置<iframe src="https://ghbtns.com/github-btn.html?user=Xwudao&repo=good_gm_script&type=star&count=true" frameborder="0" scrolling="0" style="height: 20px;max-width: 108px;padding-left:5px;box-sizing: border-box;margin-bottom: -5px;display:unset !important;"></iframe> <span class="close">&times;</span></div>
                 <div class="body">
                     <p>1、清空缓存 （清空之前缓存的提取码等信息）[缓存：<span class="cache-count"></span> ] <button class="clear-cache">清空</button></p>
                     <p>2、查找缓存[缓存的提取码] <input type="text" class="key" placeholder="输入网盘链接"> <button

@@ -299,6 +299,17 @@ export function OtherPage(config) {
     document.body.addEventListener('click', (ev) => {
         if (ev.target !== document.body) {//不是点击的body
             let html = ev.target.innerHTML;
+
+            if (ev.target.nodeName.toLowerCase() === 'a') return;//A标签排除在外！
+
+            // console.log('ev.target: ', ev.target);
+            // console.log('ev.target.nodeName: ', ev.target.nodeName.toLowerCase());
+            // console.log('ev.target.hasChildNodes: ', ev.target.hasChildNodes());
+            // console.log('ev.target.childNodes: ', ev.target.childNodes);
+
+            // document.nodeName
+
+
             console.log('ev.target', ev.target);
             // console.log('click html', html);
             let kuanLinks = document.querySelectorAll('.kuan-link');
