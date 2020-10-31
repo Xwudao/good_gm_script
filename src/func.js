@@ -2,7 +2,7 @@ import {
     API_DISK_URL, SEARCH_API_URL, API_TAOKE_COUPON_URL,
     PARSE_PWD_REG, BUTTON_TEXT_VIP_VIDEO, BUTTON_TEXT_PARSE_BAIDU,
     KEY_LINKS_DIALOG, NOTICE_TEXT_CLOSE_LINK_DIALOG, BUTTON_TEXT_FIND_COUPON,
-    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING, BUTTON_TEXT_HISTORY, BUTTON_TEXT_COUPON
+    URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING, BUTTON_TEXT_HISTORY, BUTTON_TEXT_COUPON, HISTORY_PRICE_URL
 } from './config'
 
 
@@ -297,13 +297,15 @@ export function appendCouponQrCode(id) {
 // 构造历史价格优惠券
 export function getHistoryUrl(url) {
     if (typeof url !== 'string') return url;
-    if (url.indexOf('detail.tmall') !== -1) {
-        return url.replace('tmall', 'tmallasd')
-    }
-    if (url.indexOf('item.taobao') !== -1) {
-        return url.replace('taobao', 'taobaoasd')
-    }
-    return url;
+    let hUrl = HISTORY_PRICE_URL.replace('[url]', encodeURIComponent(url))
+    return hUrl
+    // if (url.indexOf('detail.tmall') !== -1) {
+    //     return url.replace('tmall', 'tmallasd')
+    // }
+    // if (url.indexOf('item.taobao') !== -1) {
+    //     return url.replace('taobao', 'taobaoasd')
+    // }
+    // return url;
 }
 
 // 插入优惠券节点
@@ -335,6 +337,22 @@ export function getCompressPass() {
     return result.join('~~');
 }
 
+
+// gm xml http request
+export function req(url, met, data, onload, onerr) {
+
+    GM_xmlhttpRequest({
+        method: met.toUpperCase(),
+        url: url,
+        data: data,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        onload: onload,
+        onerror: onerr
+    })
+}
+
 export function getPass(disk_type, disk_id, callBack) {
     let data = 'disk_id=' + disk_id + '&disk_type=' + disk_type;
     let pwd = getPwdValue(disk_type, disk_id)
@@ -342,13 +360,23 @@ export function getPass(disk_type, disk_id, callBack) {
     //     callBack({ diskPass: pwd, from: 'local' }, 'success');
     //     return;
     // }
-    return $.post(API_DISK_URL + '/pass/get', data, (res, status) => {
-        if (res && res.diskPass) {
-            callBack(res, status);//用远程的
+
+    req(API_DISK_URL + '?' + data, 'get', null, (r) => {
+        let res = JSON.parse(r.responseText)
+        if (res && res.code === 200 && res.data.disk_pass !== '') {
+            callBack({ diskPass: res.data.disk_pass, from: 'remote' }, 'success');//用远程的
         } else {
             callBack({ diskPass: pwd, from: 'local' }, 'success');//用本地的
         }
-    }, 'json');
+    }, null)
+
+    // return $.post(API_DISK_URL + '/pass/get', data, (res, status) => {
+    //     if (res && res.code === 200 && res.data.disk_pass !== '') {
+    //         callBack(res, status);//用远程的
+    //     } else {
+    //         callBack({ diskPass: pwd, from: 'local' }, 'success');//用本地的
+    //     }
+    // }, 'json');
 }
 export function getCouponInfo(id, callBack) {
     $.get(API_TAOKE_COUPON_URL.replace('[id]', id), (res, status) => {
@@ -360,15 +388,29 @@ export function getCouponInfo(id, callBack) {
 export function sendPass(disk_type, disk_id, local_pass, callBack) {
     if (disk_type === undefined || disk_id === undefined) return;
     let local_compress_pass = getCompressValue(disk_type, disk_id);
-    let data = 'disk_id=' + disk_id + '&disk_type=' + disk_type + '&disk_state=1' + '&disk_pass=' + local_pass + '&file_pass=' + local_compress_pass;
+    // let data = {
+    //     disk_id,
+    //     disk_type,
+    //     disk_info: local_compress_pass
+    // }
+    let data = 'disk_id=' + disk_id + '&disk_type=' + disk_type + '&disk_info=' + local_compress_pass;
+    // let data = 'disk_id=' + disk_id + '&disk_type=' + disk_type + '&disk_state=1' + '&disk_pass=' + local_pass + '&file_pass=' + local_compress_pass;
 
-    return $.post(API_DISK_URL + '/pass/send', data, callBack);
+    // return $.post(API_DISK_URL + '/pass/send', data, callBack);
+    req(API_DISK_URL, 'post', data, (res) => {
+        GM_log('sent')
+        // GM_log('send: ', res)
+    }, null)
 }
 
 export function sendInvalidate(disk_type, disk_id) {
     if (disk_type === undefined || disk_id === undefined) return;
-    let data = 'disk_state=0&disk_id=' + disk_id + '&disk_type=' + disk_type;
-    return $.post(API_DISK_URL + '/pass/send', data, callBack);
+    // let data = 'disk_state=0&disk_id=' + disk_id + '&disk_type=' + disk_type;
+    req(API_DISK_URL + '/invalid/' + disk_type + '/' + disk_id, 'get', null, (res) => {
+        GM_log('sent invalid')
+    })
+
+    // return $.post(API_DISK_URL + '/pass/send', data, callBack);
 }
 
 export function activeAnyLink(html) {

@@ -4,14 +4,14 @@ export const TAOBAO_TITLE_SELECTTOR = [
     '#J_Title > h3', '#J_DetailMeta > div.tm-clear > div.tb-property > div > div.tb-detail-hd > h1'
 ]
 
-export const SEARCH_API_URL = 'https://shop.misiai.com/search/[kw]';
+export const SEARCH_API_URL = 'https://mall.misiai.com/index.php?input=2&r=l&kw=[kw]';
 export const VIP_VIDEO_API_URL = 'http://jx.misiai.com/[url]';
 
-export const API_DISK_URL = '//api1.lzpan.com/api';
+export const API_DISK_URL = 'https://api2.lzpan.com/disk/v1';
 export const API_TAOKE_COUPON_URL = 'https://common.misiai.com/public/taoke/getCouponByItemId?itemId=[id]'
 
 export const API_PARSE_BAIDU_URL = 'http://pan.naifei.cc/?share=1[disk_id]&pwd=[pwd]'
-
+export const HISTORY_PRICE_URL = 'http://p.zwjhl.com/price.aspx?url=[url]'
 
 export const KEY_LINKS_DIALOG = '_setting_link_dialog_'
 
@@ -38,6 +38,13 @@ export const ACTIVE_LINK_REG = [//激活页面链接的正则表达式
     /((?:https?:\/\/)?(?:\w+\.)?lanzou.?.com\/[\w\-_]{6,13})/ig,
     /((?:https?:\/\/)?cloud\.?189?.cn\/t\/[\w\-_]+)/ig,
 ];
+
+
+export const JUMP_LINK_REG = [// 判断是否是网盘链接，如果是，则跳转
+    /^((?:https?:\/\/)?(?:yun|pan|eyun).baidu.com\/s[hare]*\/[int?surl=]*[\w-_]{5,25})$/ig,
+    /^((?:https?:\/\/)?(?:\w+\.)?lanzou.?.com\/[\w\-_]{6,13})$/ig,
+    /^((?:https?:\/\/)?cloud\.?189?.cn\/t\/[\w\-_]+)$/ig,
+]
 
 export const INVALIDATE_LINK_REG = [
     /(被取消了|分享文件已过期|已经被删除|分享内容可能因为|啊哦，你来晚了|取消分享了|外链不存在)/ig,

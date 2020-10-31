@@ -5,3 +5,10 @@ export function parseItemId(url) {
     else
         return null;
 }
+
+export function jumpUrl(url) {
+    let w = window.open(url, '_blank')
+    if (!w) {
+        window.location.href = url
+    }
+}

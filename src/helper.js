@@ -2,7 +2,7 @@ import {
     INVALIDATE_LINK_REG,
     BAIDU_ELEMENT, DISK_INFO_START_WITH, LZ_ELEMENT, VIP_VIDEO_API_URL,
     ACTIVE_LINK_REG, URL_REG, LZ_PWD_EXITS_ELEMENT, IS_DISK_URL, TY_ELEMENT,
-    TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE,
+    TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE, JUMP_LINK_REG,
 } from './config'
 // import { encode } from 'js-base64';
 // const base64url = require('base64-url')
@@ -14,7 +14,7 @@ import {
     appendBaiduParseDom, appendSettingDom, appendCouponDom, appendHistoryDom,
 } from './func'
 
-import { parseItemId } from './util';
+import { jumpUrl, parseItemId } from './util';
 
 // 天猫详情页操作
 export function tmallDetail(config) {
@@ -52,7 +52,6 @@ export function videoPage(config) {
 
 // 处理百度密码页面
 export function baiduPwdPage(config) {
-
     let { href } = config;
     console.log('helper...')
     let [disk_type, disk_id] = getDiskIdAndType(href);
@@ -99,6 +98,9 @@ export function baiduIndexPage(config) {
     console.log('helper...baiduIndexPage')
 
 
+
+
+    let [disk_type, disk_id] = getDiskIdAndType(href);
     // 检测是否已失效
     for (let i = 0; i < INVALIDATE_LINK_REG.length; i++) {
         let reg = INVALIDATE_LINK_REG[i];
@@ -108,11 +110,8 @@ export function baiduIndexPage(config) {
             return;//已失效，不往下进行了；
         }
     }
-
-    let [disk_type, disk_id] = getDiskIdAndType(href);
-
     // 左侧按钮，跳转解析
-    appendBaiduParseDom(disk_id, getPwdValue(disk_type, disk_id));
+    // appendBaiduParseDom(disk_id, getPwdValue(disk_type, disk_id));
     // 设置dom
     appendSettingDom();
 
@@ -214,6 +213,8 @@ export function tyyPage(config) {
     // 设置dom
     appendSettingDom();
 
+    let [disk_type, disk_id] = getDiskIdAndType(href);
+
     // 检测是否已失效
     for (let i = 0; i < INVALIDATE_LINK_REG.length; i++) {
         let reg = INVALIDATE_LINK_REG[i];
@@ -223,8 +224,6 @@ export function tyyPage(config) {
             return;//已失效，不往下进行了；
         }
     }
-
-    let [disk_type, disk_id] = getDiskIdAndType(href);
 
     let selector_input = selector(TY_ELEMENT.input);
     let selector_click = selector(TY_ELEMENT.click);
@@ -311,7 +310,7 @@ export function OtherPage(config) {
 
 
             console.log('ev.target', ev.target);
-            // console.log('click html', html);
+            // console.log('click html:', html);
             let kuanLinks = document.querySelectorAll('.kuan-link');
             let kuanLinksWrapper = document.querySelector('.kuan-links');
             console.log('kuanLinksWrapper', kuanLinksWrapper);
@@ -326,10 +325,19 @@ export function OtherPage(config) {
 
             if (URL_REG.test(html)) {//匹配到了纯网址点击
 
-                // if (!IS_DISK_URL.test(html)) {
-                //     ev.target.innerHTML = activeAnyLink(html);
-                //     return;//就不再往下执行了，因为不是网盘地址
-                // }
+                for (let i = 0; i < JUMP_LINK_REG.length; i++) {
+                    let reg = JUMP_LINK_REG[i]
+                    if (reg.test(html)) {
+                        GM_log('jump url: ', html)
+                        jumpUrl(html)
+                        return
+                    }
+                }
+
+                if (!IS_DISK_URL.test(html)) {
+                    ev.target.innerHTML = activeAnyLink(html);
+                    return;//就不再往下执行了，因为不是网盘地址
+                }
                 // let body = document.body.innerHTML
                 // if (body.split(html).length - 1 < 2) {
                 //     console.log('loop active');
