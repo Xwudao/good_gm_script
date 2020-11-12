@@ -334,10 +334,10 @@ export function OtherPage(config) {
                     }
                 }
 
-                if (!IS_DISK_URL.test(html)) {
-                    ev.target.innerHTML = activeAnyLink(html);
-                    return;//就不再往下执行了，因为不是网盘地址
-                }
+//                 if (!IS_DISK_URL.test(html)) {
+//                     ev.target.innerHTML = activeAnyLink(html);
+//                     return;//就不再往下执行了，因为不是网盘地址
+//                 }
                 // let body = document.body.innerHTML
                 // if (body.split(html).length - 1 < 2) {
                 //     console.log('loop active');
