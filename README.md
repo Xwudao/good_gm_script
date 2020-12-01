@@ -20,6 +20,12 @@
 
 ![image](./images/2.png)
 
+### Thanks
+
+
+Thanks for the free software license from [JetBrains](https://www.jetbrains.com/)
+
+
 ### 相关网站
 
 1、GM Script: [https://greasyfork.org/zh-CN/scripts/396347](https://greasyfork.org/zh-CN/scripts/396347)
