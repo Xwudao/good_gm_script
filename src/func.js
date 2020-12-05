@@ -1,5 +1,5 @@
 import {
-    API_DISK_URL, SEARCH_API_URL, API_TAOKE_COUPON_URL,
+    API_DISK_URL, SEARCH_API_URL, API_TAOKE_COUPON_URL, ACTIVE_LINK_REG, JUMP_LINK_REG,
     PARSE_PWD_REG, BUTTON_TEXT_VIP_VIDEO, BUTTON_TEXT_PARSE_BAIDU,
     KEY_LINKS_DIALOG, NOTICE_TEXT_CLOSE_LINK_DIALOG, BUTTON_TEXT_FIND_COUPON,
     URL_REG, API_PARSE_BAIDU_URL, VIP_VIDEO_API_URL, BUTTON_TEXT_SETTING, BUTTON_TEXT_HISTORY, BUTTON_TEXT_COUPON, HISTORY_PRICE_URL
@@ -7,6 +7,7 @@ import {
 
 
 import style from './styles/styles.scss'
+import { uniqueArr } from './util';
 
 export function selector(dom) {
     return document.querySelector(dom);
@@ -133,8 +134,9 @@ function parseDom(arg) {
 
 // 添加页面链接汇总dom
 export function appendLinksDom(linksArr) {
+    console.log(linksArr);
     if (linksArr.length <= 0) return;// 没有东西，就不要创建了
-    if (document.querySelector('.kuan-links-wrapper')) return;// 已经有了
+
     let open = getValue(KEY_LINKS_DIALOG, 'true')
     if (open !== 'true') return;
     let dom = `
@@ -156,15 +158,21 @@ export function appendLinksDom(linksArr) {
     let oWrapper = linksDom;
     // console.log(oTitle, oLinks, oWrapper);
 
+    if (!document.querySelector('.kuan-links-wrapper')) {
+        document.body.appendChild(oWrapper);
+    };
 
+
+    oLinks.innerHTML = ''//先清空呀
     linksArr.forEach((item, i) => {
-        console.log(i);
+        // console.log(i);
         let { link, pwd } = item;
-        let linkDom = `<div class="item"><em>[${i + 1}]</em><a class="kuan-link" href="${link}" target="_blank">${link}</a><span class="pwd">${pwd}</span></div>`;
-        oLinks.appendChild(parseDom(linkDom));
+        if (link !== undefined && link !== 'undefined') {
+            let linkDom = `<div class="item"><em>[${i + 1}]</em><a class="kuan-link" href="${link}" target="_blank">${link}</a><span class="pwd">${pwd}</span></div>`;
+            oLinks.appendChild(parseDom(linkDom));
+        }
     });
 
-    document.body.appendChild(oWrapper);
     // 折叠展开
     oTitle.addEventListener('click', clickFun);
 
@@ -180,9 +188,9 @@ export function appendLinksDom(linksArr) {
         l = oWrapper.offsetLeft;
         t = oWrapper.offsetTop;
         //开关打开
-        console.log('x', x, 'y', y);
-        console.log(l, t);
-        console.log('mouseDown');
+        // console.log('x', x, 'y', y);
+        // console.log(l, t);
+        // console.log('mouseDown');
         oTitle.style.cursor = 'move';
         window.addEventListener('mousemove', moveFunc)
 
@@ -220,6 +228,13 @@ export function appendLinksDom(linksArr) {
     }
 
 }
+// 场景：有些dom是js动态添加的，但用户点击时，重新获取这些dom里面的看可能存在的link
+export function AddLinks(oldLinkArr, aimLink) {
+    let newArr = [...oldLinkArr, aimLink]
+    return uniqueArr(newArr)
+}
+
+
 
 export function parseTitle(title) {
     return title.replace(/^【.*】/ig, '');
@@ -476,8 +491,30 @@ export function unique(arr) {// 去重
     }
     return arr;
 }
+// 根据正则解析出网盘链接地址
+export function parseLink(html) {
+    console.log('html', html);
+    for (let i = 0; i < ACTIVE_LINK_REG.length; i++) {
+        let res = matchAll(html, ACTIVE_LINK_REG[i]);
+        console.log('res', res);
+        for (let j = 0; j < res.length; j++) {
+            if (res[j].length >= 3 && res[j][2] !== undefined) {
+                let diskUrl = res[j][1]
+                console.log('diskUrl', diskUrl);
+                let [disk_type, disk_id] = getDiskIdAndType(res[j][1]);
+                // setCompressValue(disk_type, disk_id, getCompressPass());//密码
+                // console.log('find pwd: ', disk_id, '===>>', res[j][2]);
+                // setPwdValue(disk_type, disk_id, res[j][2]);
+            }
+
+            // linksArr.push({ link: res[j][1], pwd: res[j][2] || '' });
+        }
+    }
+
+}
 
 // 顺带抓取链接后面的密码
+// 返回：{ link: res[j][1], pwd: res[j][2] || ''}
 export function parsePwd(html) {
     /* 
     0: "https://pan.baidu.com/s/1KpvGklksecWEEAQop1PumQ 提取码: 9g4q"
@@ -485,12 +522,13 @@ export function parsePwd(html) {
     2: "9g4q"
     groups: undefined */
     let linksArr = [];
+    let cprP = getCompressPass()
     for (let i = 0; i < PARSE_PWD_REG.length; i++) {
         let res = matchAll(html, PARSE_PWD_REG[i]);
         for (let j = 0; j < res.length; j++) {
             if (res[j].length >= 3 && res[j][2] !== undefined) {
                 let [disk_type, disk_id] = getDiskIdAndType(res[j][1]);
-                setCompressValue(disk_type, disk_id, getCompressPass());//密码
+                setCompressValue(disk_type, disk_id, cprP);//密码
                 console.log('find pwd: ', disk_id, '===>>', res[j][2]);
                 setPwdValue(disk_type, disk_id, res[j][2]);
             }
@@ -498,8 +536,11 @@ export function parsePwd(html) {
             linksArr.push({ link: res[j][1], pwd: res[j][2] || '' });
         }
     }
-    appendLinksDom(linksArr);//添加所有链接的节点
+
+    return linksArr;
 }
+
+
 
 export function matchAll(str, reg) {// helper,简单封装匹配函数
     let res = [];

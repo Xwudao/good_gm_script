@@ -1,5 +1,5 @@
 import {
-    INVALIDATE_LINK_REG,
+    INVALIDATE_LINK_REG, LINKIFY_REG,
     BAIDU_ELEMENT, DISK_INFO_START_WITH, LZ_ELEMENT, VIP_VIDEO_API_URL,
     ACTIVE_LINK_REG, URL_REG, LZ_PWD_EXITS_ELEMENT, IS_DISK_URL, TY_ELEMENT,
     TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE, JUMP_LINK_REG,
@@ -10,8 +10,8 @@ import {
     selector, getPass, getDiskIdAndType, sendPass, appendVipVideoDom,
     setValue, getValue, setPwdValue, getPwdValue, getSentValue, setSentValue,
     mactchReplaceHtml, parsePwd, sendInvalidate, activeAnyLink, parseTitle,
-    appendCouponQrCode,
-    appendBaiduParseDom, appendSettingDom, appendCouponDom, appendHistoryDom,
+    appendCouponQrCode, parseLink,
+    appendBaiduParseDom, appendSettingDom, appendCouponDom, appendHistoryDom, linkify, appendLinksDom, AddLinks,
 } from './func'
 
 import { jumpUrl, parseItemId } from './util';
@@ -291,89 +291,122 @@ export function OtherPage(config) {
 
     let { href } = config;
 
+    // Array.prototype.slice.call(document.querySelectorAll(
+    //     "a[href*='pan.baidu.com'], a[href*='lanzou'], a[href*='lanzoui.com'], a[href*='lanzous.com'], a[href*='lanzoux.com']"
+    // )).forEach(function (link) {
+    //     let txt = link.nextSibling && link.nextSibling.nodeValue;
+    //     console.log('link', link);
+    //     console.log('txt', txt);
+    //     parseLink(link)
+    //     let linkcode = /码.*?([a-z\d]{4})/i.exec(txt) && RegExp.$1;
 
-    parsePwd(document.body.innerText);//先分析下密码
+    //     if (!linkcode) {
+    //         txt = link.parentNode.innerText;
+    //         linkcode = /码.*?([a-z\d]{4})/i.exec(txt) && RegExp.$1;
+    //     }
 
-    //点击激活链接
-    document.body.addEventListener('click', (ev) => {
-        if (ev.target !== document.body) {//不是点击的body
-            let html = ev.target.innerHTML;
+    // });
 
-            if (ev.target.nodeName.toLowerCase() === 'a') return;//A标签排除在外！
+    let linkArr = parsePwd(document.body.innerText);//先分析下密码
+    appendLinksDom(linkArr)
 
-            // console.log('ev.target: ', ev.target);
-            // console.log('ev.target.nodeName: ', ev.target.nodeName.toLowerCase());
-            // console.log('ev.target.hasChildNodes: ', ev.target.hasChildNodes());
-            // console.log('ev.target.childNodes: ', ev.target.childNodes);
-
-            // document.nodeName
+    // document.addEventListener('click', (ev) => {
+    //     if (ev.target === document.body) return
+    //     linkArr = AddLinks(linkArr, parsePwd(ev.target.innerText))
+    //     appendLinksDom(linkArr)
+    // })
 
 
-            console.log('ev.target', ev.target);
-            // console.log('click html:', html);
-            let kuanLinks = document.querySelectorAll('.kuan-link');
-            let kuanLinksWrapper = document.querySelector('.kuan-links');
-            console.log('kuanLinksWrapper', kuanLinksWrapper);
-            console.log('kuanLinks', kuanLinks);
-            for (const item of kuanLinks) {
-                if (item === ev.target) return;
-            }
-            if (ev.target === kuanLinksWrapper) return;//自己的框框不能装
-            // console.log('inner html', html);
-            // console.log('html', typeof ev.target);
-            parsePwd(ev.target.innerText);//顺带要获取下密码
 
-            if (URL_REG.test(html)) {//匹配到了纯网址点击
-
-                for (let i = 0; i < JUMP_LINK_REG.length; i++) {
-                    let reg = JUMP_LINK_REG[i]
-                    if (reg.test(html)) {
-                        GM_log('jump url: ', html)
-                        jumpUrl(html)
-                        return
-                    }
-                }
-
-//                 if (!IS_DISK_URL.test(html)) {
-//                     ev.target.innerHTML = activeAnyLink(html);
-//                     return;//就不再往下执行了，因为不是网盘地址
-//                 }
-                // let body = document.body.innerHTML
-                // if (body.split(html).length - 1 < 2) {
-                //     console.log('loop active');
-                //     loopToActive(html, ev, true);
-                // } else {
-                //     return;
-                // }
-
-                let l = html.length * 3;
-                let body = document.body.innerHTML
-                let r = new RegExp(html, 'ig').exec(body)
-                if (r) {
-                    let cut_body = body.substring(r.index - l, r.index + l);
-                    if (cut_body.split(html).length - 1 < 2) {
-                        console.log('loop active');
-                        loopToActive(html, ev, true);
-                    } else {
-                        return;
-                    }
-                }
-
-            }
-            loopToActive(html, ev);
-
+    /* 
+    以下代码，参考自：https://greasyfork.org/zh-CN/scripts/18733-%E7%BD%91%E7%9B%98%E6%8F%90%E5%8F%96%E5%B7%A5%E5%85%B7/code
+    */
+    let CODE_RULE_COMMON = /^([a-z\d]{3,})$/i;
+    let MAX_SEARCH_CODE_RANGE = 5;
+    //functions...
+    let textNodesUnder = function (el) {
+        let n, a = [],
+            walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+        while ((n = walk.nextNode())) {
+            if (n.nodeName === '#text')
+                a.push(n);
         }
-    });
+        return a;
+    };
+    let generalLinkifyText = function (source, eles, index, testReg, validateRule) {
+        let count = 0,
+            text = source,
+            match;
+        while ((match = testReg.exec(source))) {
+            count++;
 
-    // 通过正则循环激活链接
-    function loopToActive(html, ev, tag = false) {
-        for (let i = 0; i < ACTIVE_LINK_REG.length; i++) {
-            let [isMatch, newHtml] = mactchReplaceHtml(html, ACTIVE_LINK_REG[i], tag);
-            if (isMatch) {
-                ev.target.innerHTML = newHtml;
+            let url = (match[1] || "http://") + match[2];
+            let originalText = (match[1] || "") + match[2];
+            let code = match[3] || findCodeFromElements(eles, index, validateRule) || "";
+            url = url.split('#')[0];
+            text = text.replace(originalText, "<a href='" + url + "#" + code + "' target='_blank'>" + url + '</a>');
+        }
+        return {
+            count,
+            text
+        };
+    };
+    let findCodeFromElements = function (eles, index, rule) {
+        for (let i = 0; i < MAX_SEARCH_CODE_RANGE && i < eles.length; i++) {
+            let txt = null
+            try {
+                txt = eles[i + index].textContent || '';
+            }
+            catch (e) {
+                continue
+            }
+            let codeReg = /码.*?([a-z\d]+)/gi;
+            let codeMatch = codeReg.exec(txt) && RegExp.$1;
+            if (!codeMatch) continue;
+            let linkTestReg = /(https?:|\.(net|cn|com|gov|cc|me))/gi;
+            if (linkTestReg.exec(txt) && linkTestReg.lastIndex <= codeReg.lastIndex) {
+                break;
+            }
+            if (rule.test(codeMatch)) return codeMatch;
+        }
+        return null;
+    };
+    let linkify = function () {
+        let eles = textNodesUnder(document.body);
+        let processor = [];
+        for (let m = 0; m < LINKIFY_REG.length; m++) {
+            processor.push(
+                function (...args) {
+                    return generalLinkifyText(...[
+                        ...args,
+                        LINKIFY_REG[m],
+                        CODE_RULE_COMMON
+                    ]);
+                }
+            )
+        }
+        for (let i = 0; i < eles.length; i++) {
+            let ele = eles[i];
+            if (ele.parentNode.tagName == 'a' || !ele.textContent) continue;
+
+            let txt = ele.textContent;
+            let loopCount = 0;
+
+            for (var action of processor) {
+                let {
+                    count,
+                    text
+                } = action(txt, eles, i + 1);
+                loopCount += count;
+                txt = text;
+            }
+            if (loopCount > 0) {
+                var span = document.createElement("span");
+                span.innerHTML = txt;
+                ele.parentNode.replaceChild(span, ele);
             }
         }
-    }
+    };
 
-
+    linkify()
 }

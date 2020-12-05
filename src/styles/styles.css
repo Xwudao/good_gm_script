@@ -38,6 +38,16 @@
   border: 1px solid #27ae60;
 }
 
+.kuan-left-bar .kuan-link.kuan-coupon {
+  background: #9b59b6;
+  border: 1px solid #9b59b6;
+}
+
+.kuan-left-bar .kuan-link.kuan-coupon:hover {
+  background: #8e44ad;
+  border: 1px solid #8e44ad;
+}
+
 .kuan-left-bar .kuan-link.kuan-vip {
   background: #3498db;
   border: 1px solid #3498db;
@@ -98,7 +108,7 @@
 
 .kuan-wrapper .card {
   width: 500px;
-  padding: 20px 10px;
+  padding: 10px 10px 20px 10px;
   background-color: #fff;
   border-radius: 5px;
   /* margin-top: 100px; */
@@ -122,7 +132,7 @@
       -ms-user-select: none;
           user-select: none;
   float: right;
-  font-size: 18px;
+  font-size: 26px;
   cursor: pointer;
   padding-right: 10px;
 }
@@ -187,7 +197,7 @@
 
 .kuan-links-wrapper .kuan-links {
   width: 100%;
-  height: 400px;
+  max-height: 400px;
   overflow-y: auto;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -230,6 +240,10 @@
   font-size: 14px;
 }
 
+.kuan-links-wrapper .kuan-links .item:last-child {
+  border-bottom: none;
+}
+
 .kuan-links-wrapper .kuan-links .item em {
   color: #666666;
   margin-right: 0.2rem;
@@ -248,62 +262,5 @@
 .kuan-links-wrapper .kuan-links .item .pwd {
   color: green;
   margin-left: 1rem;
-}
-
-.kuan-coupon-code {
-  background-color: #fff;
-  border-radius: 3px;
-  position: fixed;
-  top: 150px;
-  left: 50px;
-  text-align: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-}
-
-.kuan-coupon-code img {
-  display: inline-block;
-  width: 150px;
-}
-
-.kuan-coupon-code .text {
-  font-size: 15px;
-  display: inline-block;
-  color: #666;
-}
-
-.kuan-coupon-code .text .num {
-  margin: 0 4px;
-  font-weight: bold;
-  color: red;
-  font-size: 18px;
-}
-
-.kuan-coupon-code .btn {
-  margin-top: 10px;
-  outline: none;
-  padding: 5px 3px;
-  font-size: 12px;
-  border-radius: 3px;
-  color: #fff;
-  background-color: #f57c00;
-  border: 1px solid #f57c00;
-  cursor: pointer;
-  -webkit-transition: all 0.1s;
-  transition: all 0.1s;
-}
-
-.kuan-coupon-code .btn:hover {
-  background: #f79633;
-  border-color: #f79633;
-  color: #fff;
 }
 /*# sourceMappingURL=styles.css.map */
