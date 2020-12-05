@@ -393,7 +393,7 @@ export function sendPass(disk_type, disk_id, local_pass, callBack) {
     //     disk_type,
     //     disk_info: local_compress_pass
     // }
-    let data = 'disk_id=' + disk_id + '&disk_type=' + disk_type + '&disk_info=' + local_compress_pass;
+    let data = 'disk_id=' + disk_id + '&disk_pass=' + local_pass + '&disk_type=' + disk_type + '&disk_info=' + local_compress_pass;
     // let data = 'disk_id=' + disk_id + '&disk_type=' + disk_type + '&disk_state=1' + '&disk_pass=' + local_pass + '&file_pass=' + local_compress_pass;
 
     // return $.post(API_DISK_URL + '/pass/send', data, callBack);
