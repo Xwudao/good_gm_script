@@ -45,8 +45,8 @@ export function taobaoDetail(config) {
 
 // 跳转Vip视频
 export function videoPage(config) {
-    let { href } = config;
-    appendVipVideoDom(VIP_VIDEO_API_URL.replace('[url]', Base64.encode(href)));
+    // let { href } = config;
+    // appendVipVideoDom(VIP_VIDEO_API_URL.replace('[url]', Base64.encode(href)));
 }
 
 
