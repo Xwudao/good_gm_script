@@ -22,17 +22,15 @@
 
 ### Thanks
 
-
 Thanks for the free software license from [JetBrains](https://www.jetbrains.com/)
-
 
 ### 相关网站
 
 1、GM Script: [https://greasyfork.org/zh-CN/scripts/396347](https://greasyfork.org/zh-CN/scripts/396347)
 
-2、优惠券系统：[https://shop.misiai.com/](https://shop.misiai.com/)
+2、优惠券系统：[https://mall.misiai.com/](https://mall.misiai.com/)
 
-3、解析网站：[http://pan.naifei.cc/](http://pan.naifei.cc/)
+3、【已废弃】解析网站：[http://pan.naifei.cc/](http://pan.naifei.cc/)
 
 ### 协议
 
