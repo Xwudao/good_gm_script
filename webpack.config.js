@@ -14,24 +14,27 @@ module.exports = {
         chunkFilename: "[name].chunk.js"
     },
     optimization: {
-        minimizer: [new UglifyJsPlugin({
-            exclude: /\/node_modules/,
-            chunkFilter: (chunk) => {
-                // Exclude uglification for the `vendor` chunk
-                if (chunk.name === 'vendor') {
-                    return false;
-                }
+        minimize: false,
 
-                return true;
-            },
-            sourceMap: true,
-            parallel: 4,
-            uglifyOptions: {
-                compress: false,
-                keep_classnames: true,
-                keep_fnames: true
-            }
-        }),],
+        // minimizer: [new UglifyJsPlugin({
+        //     exclude: /\/node_modules/,
+        //     chunkFilter: (chunk) => {
+        //         // Exclude uglification for the `vendor` chunk
+        //         if (chunk.name === 'vendor') {
+        //             return false;
+        //         }
+
+        //         return true;
+        //     },
+        //     sourceMap: true,
+        //     parallel: 4,
+        //     uglifyOptions: {
+        //         beautify: true,
+        //         compress: false,
+        //         keep_classnames: true,
+        //         keep_fnames: true
+        //     }
+        // }),],
     },
     // devServer: {
     //     contentBase: path.join(__dirname, 'dist'),
