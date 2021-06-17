@@ -1,6 +1,8 @@
 .kuan-left-bar {
   position: fixed;
-  top: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  // top: 3rem;
   left: 1rem;
   width: 18px !important;
   text-align: center;
