@@ -4,8 +4,6 @@ import {
     ACTIVE_LINK_REG, URL_REG, LZ_PWD_EXITS_ELEMENT, IS_DISK_URL, TY_ELEMENT,
     TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE, JUMP_LINK_REG,
 } from './config'
-// import { encode } from 'js-base64';
-// const base64url = require('base64-url')
 import {
     selector, getPass, getDiskIdAndType, sendPass, appendVipVideoDom,
     setValue, getValue, setPwdValue, getPwdValue, getSentValue, setSentValue,
@@ -46,7 +44,6 @@ export function taobaoDetail(config) {
 // 跳转Vip视频
 export function videoPage(config) {
     // let { href } = config;
-    // appendVipVideoDom(VIP_VIDEO_API_URL.replace('[url]', Base64.encode(href)));
 }
 
 
@@ -132,8 +129,12 @@ export function lzyPage(config) {
     console.log('helper...')
 
 
-    // 设置dom
-    appendSettingDom();
+    let pathname = location.pathname
+    if (pathname.indexOf('/fn') === -1) {
+        // 设置dom
+        appendSettingDom();
+    }
+
 
     let [disk_type, disk_id] = getDiskIdAndType(href);
 

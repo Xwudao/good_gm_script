@@ -1809,11 +1809,6 @@ base64-js@^1.0.2:
   resolved "https://registry.npm.taobao.org/base64-js/download/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
   integrity sha1-WOzoy3XdB+ce0IxzarxfrE2/jfE=
 
-base64-url@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.npm.taobao.org/base64-url/download/base64-url-2.3.3.tgz#645b71455c75109511f27d98450327e455f488ec"
-  integrity sha1-ZFtxRVx1EJUR8n2YRQMn5FX0iOw=
-
 base@^0.11.1:
   version "0.11.2"
   resolved "https://registry.npm.taobao.org/base/download/base-0.11.2.tgz#7bde5ced145b6d551a90db87f83c558b4eb48a8f"
@@ -4291,11 +4286,6 @@ js-base64@^2.1.8:
   version "2.6.3"
   resolved "https://registry.npm.taobao.org/js-base64/download/js-base64-2.6.3.tgz?cache=0&sync_timestamp=1595031233168&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjs-base64%2Fdownload%2Fjs-base64-2.6.3.tgz#7afdb9b57aa7717e15d370b66e8f36a9cb835dc3"
   integrity sha1-ev25tXqncX4V03C2bo82qcuDXcM=
-
-js-base64@^3.2.4:
-  version "3.2.4"
-  resolved "https://registry.npm.taobao.org/js-base64/download/js-base64-3.2.4.tgz?cache=0&sync_timestamp=1595031233168&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjs-base64%2Fdownload%2Fjs-base64-3.2.4.tgz#1c311821ec3871ced6091808409f8401e30684a6"
-  integrity sha1-HDEYIew4cc7WCRgIQJ+EAeMGhKY=
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
