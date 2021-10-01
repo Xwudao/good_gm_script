@@ -7,7 +7,7 @@ let config = { href, hash, host };
 
 import {
     baiduPwdPage, baiduIndexPage, OtherPage, lzyPage, tyyPage,
-    tmallDetail, taobaoDetail, videoPage
+    tmallDetail, taobaoDetail, videoPage, alyPage
 } from './helper'
 import { exportStyle, } from './func';
 import { } from './config';
@@ -37,6 +37,7 @@ let regular_express = {
     bdyPage: /^https?:\/\/pan\.baidu\.com\/s\/.*/ig,
     lzyPage: /^https?:\/\/(?:\w+)?\.?lanzou.?\.com\/.*/ig,
     tyyPage: /^https?:\/\/(?:\w+)?\.?189.?\.cn\/.*/ig,
+    alyPage: /^https?:\/\/(?:\w+)?\.?aliyundrive\.com\/s\/.*/ig,
 }
 
 
@@ -74,6 +75,13 @@ let regular_express = {
     if (regular_express.lzyPage.test(href)) {// 百度网盘正文页面
         console.log('LZY Index Page');
         lzyPage(config);
+        return;
+    }
+
+    // 阿里云
+    if (regular_express.alyPage.test(href)) {// 百度网盘正文页面
+        console.log('ALY Index Page');
+        alyPage(config);
         return;
     }
     // 天翼云

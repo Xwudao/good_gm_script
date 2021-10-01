@@ -577,6 +577,10 @@ export function getDiskIdAndType(url) {
     if (matches && matches.length === 2) {
         return ['TYY', matches[1]];
     }
+    matches = /https?:\/\/(?:www\.)?aliyundrive\.com\/s\/([\w_]{9,16})/ig.exec(url);
+    if (matches && matches.length === 2) {
+        return ['ALY', matches[1]];
+    }
     return [];
 }
 

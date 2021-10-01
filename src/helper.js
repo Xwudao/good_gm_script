@@ -2,7 +2,7 @@ import {
     INVALIDATE_LINK_REG, LINKIFY_REG,
     BAIDU_ELEMENT, DISK_INFO_START_WITH, LZ_ELEMENT, VIP_VIDEO_API_URL,
     ACTIVE_LINK_REG, URL_REG, LZ_PWD_EXITS_ELEMENT, IS_DISK_URL, TY_ELEMENT,
-    TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE, JUMP_LINK_REG,
+    TYY_PRIVATE_TEXT, SYS_ERROR_NOTICE, QUERY_SUCCESS_NOTICE, PLEASE_INPUT_NOTICE, JUMP_LINK_REG, AL_ELEMENT,
 } from './config'
 import {
     selector, getPass, getDiskIdAndType, sendPass, appendVipVideoDom,
@@ -119,6 +119,50 @@ export function baiduIndexPage(config) {
     } else {
         console.log('has sent');
     }
+}
+
+export function alyPage(config) {
+    let { href } = config;
+    console.log('helper...')
+    // 设置dom
+    appendSettingDom();
+
+
+    let [disk_type, disk_id] = getDiskIdAndType(href);
+    // 检测是否已失效
+    for (let i = 0; i < INVALIDATE_LINK_REG.length; i++) {
+        let reg = INVALIDATE_LINK_REG[i];
+        if (reg.test(document.body.innerText)) {
+            console.log('detected invalid page');
+            sendInvalidate(disk_type, disk_id);
+            return;//已失效，不往下进行了；
+        }
+    }
+
+    let timer = null
+
+    timer = setInterval(() => {
+
+        let input = selector(AL_ELEMENT.input);
+        let click = selector(AL_ELEMENT.click);
+        input.addEventListener('input', (e) => {
+            console.log(e);
+        })
+        console.log(click);
+        if (input) {
+            clearInterval(timer)
+            let evt = document.createEvent('HTMLEvents');
+            evt.initEvent('input', true, true);
+            //pwd page
+            input.value = 'xxsd'
+            input.dispatchEvent(evt)
+
+            click.click()
+        }
+
+
+    }, 2000);
+
 }
 
 // 蓝奏云页面

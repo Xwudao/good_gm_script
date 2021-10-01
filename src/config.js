@@ -36,18 +36,21 @@ export const PLEASE_INPUT_NOTICE = '查询密码失败，请手动输入！'
 export const ACTIVE_LINK_REG = [//激活页面链接的正则表达式
     /((?:https?:\/\/)?(?:yun|pan|eyun).baidu.com\/s[hare]*\/[int?surl=]*[\w-_]{5,25})/ig,
     /((?:https?:\/\/)?(?:\w+\.)?lanzou.?.com\/[\w\-_]{6,13})/ig,
-    /((?:https?:\/\/)?cloud\.?189?.cn\/t\/[\w\-_]+)/ig,
+    /(https?:\/\/www.aliyundrive.com\/s\/[\w]{9,16})/ig,
+    /((?: https ?: \/\/)?cloud\.?189?.cn\/t\/[\w\-_]+)/ig,
 ];
-
+console.log('ok');
 
 export const JUMP_LINK_REG = [// 判断是否是网盘链接，如果是，则跳转
     /^((?:https?:\/\/)?(?:yun|pan|eyun).baidu.com\/s[hare]*\/[int?surl=]*[\w-_]{5,25})$/ig,
     /^((?:https?:\/\/)?(?:\w+\.)?lanzou.?.com\/[\w\-_]{6,13})$/ig,
+    /^((?:https?:\/\/)?www\.aliyundrive\.com\/s\/[\w\-_]{9,16})$/ig,
     /^((?:https?:\/\/)?cloud\.?189?.cn\/t\/[\w\-_]+)$/ig,
 ]
 
 export const LINKIFY_REG = [
     /(https?:\/\/)?((?:\w+\.)?lanzou.?\.com\/(?:[a-z\d]+))(?:.*?码.*?([a-z\d]+))?/gi,
+    /(?:.*?码.*?([a-z\d]+))?(https?:\/\/)?(www\.aliyundrive\.com\/s\/(?:[a-z\d]+))/gi,
     /(https?:\/\/)?(cloud\.189?\.cn\/t\/(?:[a-z\d]+))(?:.*?码.*?([a-z\d]+))?/gi,
     /(https?:\/\/)?((?:pan|e?yun)\.baidu\.com\/s\/(?:[a-z\d\-_]+)(?:#[a-z\d-_]*)?)(?:.*?码.*?([a-z\d]+))?/gi,
 ]
@@ -60,6 +63,7 @@ export const PARSE_PWD_REG = [
     /(https?:\/\/(?:pan|yun|eyun)\.baidu\.com\/s[hare]*\/[int?surl=]*[\w-_]{8,25})[&\w=]*[^\w]*(?:密码|授权码|提取码)*[：:]*[^\w]*([\w]{4})*/igm,
     /(https?:\/\/(?:\w+)?\.?lanzou.?\.com\/[\w-_]{6,13})\/?[&\w=]*[^\w]*(?:密码|授权码|提取码)*[：:]*[^\w]*([\w]{3,})*/igm,
     /(https?:\/\/cloud.189.cn\/t\/[\w\-_]+)\/?[^\w]*[(（:：]*([\w]+)*[)）]*/igm,
+    /(?:.*码.[:：]*)?([\w]{4,6})(?:[\w\S\s]*)?(https?:\/\/)?(www\.aliyundrive\.com\/s\/([\w]{9,16}))/igm,
 ]
 export const URL_REG = /^(https?:\/\/)([0-9a-z.]+)(:[0-9]+)?([/0-9a-z.]+)?(\?[0-9a-z&=]+)?(#[0-9-a-z]+)?/i;
 
@@ -70,6 +74,11 @@ export const BAIDU_ELEMENT = {
     input: 'form input',
     notice: '.verify-form > div',
     click: '.input-area > div > a > span'
+}
+export const AL_ELEMENT = {
+    input: 'input.ant-input',
+    notice: '.verify-form > div',
+    click: 'button[type="submit"]'
 }
 export const TY_ELEMENT = {
     input: '#code_txt',
