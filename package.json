@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.14.1",
